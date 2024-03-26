@@ -12,7 +12,7 @@ import {
 
 export type AuthTokenStateType = {
   access: string;
-  refresh: string;
+  refresh?: string;
 };
 
 export type AuthUserStateType = {
