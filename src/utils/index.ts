@@ -7,4 +7,6 @@ export function parseDate(
   return moment(date, format).toDate();
 }
 
+export const API_ROOT = process.env.NEXT_PUBLIC_API_ROOT || "localhost:8080";
+
 export * from "./storage";

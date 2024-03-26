@@ -21,3 +21,8 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.error-text {
+  /* color: --chakra-colors-red-500; */
+  color: #e53e3e;
+}
