@@ -1,7 +1,10 @@
 import moment from "moment";
 
-export function parseDate(date: string): Date {
-  return moment(date, "DD. MMM, YYYY hh:mm a").toDate();
+export function parseDate(
+  date: string,
+  format: string = "DD. MMM, YYYY hh:mm a"
+): Date {
+  return moment(date, format).toDate();
 }
 
 export * from "./storage";
