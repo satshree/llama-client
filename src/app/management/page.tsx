@@ -1,6 +1,5 @@
 function Management() {
-  // CHECK LOGIN STATUS HERE
-  return <div>Management</div>;
+  return <>ADMIN</>;
 }
 
 export default Management;
