@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import {
   API_ROOT,
@@ -6,7 +6,6 @@ import {
   saveAuthStateToLocalStorage,
 } from "@/utils";
 import { AuthStateType } from "@/types";
-// import { AppThunk } from "@/store";
 
 type CredentialType = {
   username: string;
@@ -34,7 +33,7 @@ const initialState: AuthStateType = {
   },
 };
 
-export const authTokenSlice = createSlice({
+const authTokenSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -63,52 +62,41 @@ export const authTokenSlice = createSlice({
       }
     },
     clearTokens(state) {
-      state = initialState;
+      state.token = initialState.token;
+      state.user = initialState.user;
+
       removeAuthStateFromLocalStorage();
     },
   },
 });
 
-// export const login =
-//   (credentials: CredentialType): AppThunk =>
-//   async (dispatch) => {
-// const response = await fetch(API_ROOT + "/api/auth/login/", {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify(credentials),
-// });
+export const fetchTokens =
+  (credentials: CredentialType) => async (dispatch: Dispatch) => {
+    const response = await fetch(API_ROOT + "/api/auth/login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
 
-// if (response.status !== 200) {
-//   console.dir(response);
-//   throw new Error("Something went wrong");
-// } else {
-//   const authData = await response.json();
+    if (response.status !== 200) {
+      console.dir(response);
+      throw new Error("Something went wrong");
+    } else {
+      const authData = await response.json();
+      await dispatch(setTokens(authData));
 
-//   dispatch(setTokens(authData));
-// }
-//   };
+      if (authData.isSuper) {
+        window.location.href = "/management";
+      } else {
+        window.location.href = "/browse";
+      }
+    }
+  };
 
-// export const logout = (): AppThunk => async (dispatch) => dispatch(clearTokens);
-
-export const fetchTokens = async (credentials: CredentialType) => {
-  const response = await fetch(API_ROOT + "/api/auth/login/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  });
-
-  if (response.status !== 200) {
-    console.dir(response);
-    throw new Error("Something went wrong");
-  } else {
-    const authData = await response.json();
-    return authData;
-  }
-};
+export const endSession = () => async (dispatch: Dispatch) =>
+  dispatch(clearTokens());
 
 export const { setTokens, clearTokens } = authTokenSlice.actions;
 export default authTokenSlice.reducer;

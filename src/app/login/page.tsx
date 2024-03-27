@@ -16,9 +16,8 @@ import {
 } from "@chakra-ui/react";
 
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
 
-import { setTokens, fetchTokens } from "@/api/auth";
+import { fetchTokens } from "@/api/auth";
 
 import style from "./login.module.css";
 
@@ -33,7 +32,6 @@ function Login() {
 
   const toast = useToast();
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const updateUsername = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -68,14 +66,7 @@ function Login() {
       setLoading(true);
 
       try {
-        const authData = await fetchTokens({ username, password });
-        await dispatch(setTokens(authData));
-
-        if (authData.isSuper) {
-          router.push("/management");
-        } else {
-          router.push("/browse");
-        }
+        await dispatch(fetchTokens({ username, password }));
       } catch (err) {
         console.log(err);
 
