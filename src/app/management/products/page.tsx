@@ -25,7 +25,7 @@ import Image from "next/image";
 
 import { GlobalState, ProductType } from "@/types";
 
-import AddProduct from "../../../components/management/Product/AddProduct/AddProduct";
+import AddProduct from "../../../components/management/Product/AddProduct";
 import DeleteConfirmation from "@/components/common/DeleteConfirmation";
 
 import { API_ROOT } from "@/utils";
