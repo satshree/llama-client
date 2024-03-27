@@ -76,9 +76,9 @@ function Login() {
           isClosable: true,
           position: "top-right",
         });
-      }
 
-      setLoading(false);
+        setLoading(false);
+      }
     }
   };
 

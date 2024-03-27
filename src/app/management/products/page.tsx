@@ -49,13 +49,33 @@ function Products() {
 
   useEffect(() => {
     const updateProducts = async () => {
-      await dispatch(fetchProduct());
+      try {
+        await dispatch(fetchProduct());
+      } catch (err) {
+        console.log(err);
+        toast({
+          title: "Unable to fetch products",
+          status: "error",
+          isClosable: true,
+          position: "top-right",
+        });
+      }
     };
 
     updateProducts();
 
     const updateCategories = async () => {
-      await dispatch(fetchCategories());
+      try {
+        await dispatch(fetchCategories());
+      } catch (err) {
+        console.log(err);
+        toast({
+          title: "Unable to fetch product categories",
+          status: "error",
+          isClosable: true,
+          position: "top-right",
+        });
+      }
     };
     updateCategories();
   }, []);
@@ -80,27 +100,38 @@ function Products() {
       headers: {
         Authorization: `Bearer ${access}`,
       },
-    }).then(async (resp) => {
-      const response = await resp.json();
-      if (resp.status !== 200) {
-        console.log(response);
+    })
+      .then(async (resp) => {
+        const response = await resp.json();
+        if (resp.status !== 200) {
+          console.log(response);
+          toast({
+            title: "Something went wrong",
+            status: "warning",
+            isClosable: true,
+            position: "top-right",
+          });
+        } else {
+          toast({
+            title: "Product deleted",
+            status: "success",
+            isClosable: true,
+            position: "top-right",
+          });
+
+          dispatch(fetchProduct());
+        }
+      })
+      .catch((err) => {
+        console.log(err);
         toast({
           title: "Something went wrong",
-          status: "warning",
+          status: "error",
           isClosable: true,
           position: "top-right",
         });
-      } else {
-        toast({
-          title: "Product deleted",
-          status: "success",
-          isClosable: true,
-          position: "top-right",
-        });
-        setDeleteID("");
-        dispatch(fetchProduct());
-      }
-    });
+      })
+      .finally(() => setDeleteID(""));
   };
 
   return (
