@@ -3,10 +3,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  Box,
   Button,
+  Center,
   Flex,
   FormControl,
   HStack,
+  Heading,
   IconButton,
   Input,
   Table,
@@ -43,10 +46,20 @@ function Products() {
     setProducts(products);
   }, [products]);
 
+  const getProducts = () => {
+    if (search) {
+      return allProducts.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    return allProducts;
+  };
+
   return (
     <div>
-      <HStack spacing="50%">
-        <FormControl>
+      <Flex alignItems="center" justifyContent="space-between">
+        <FormControl w="300px">
           <Input
             placeholder="Search..."
             value={search}
@@ -57,62 +70,70 @@ function Products() {
           <Button colorScheme="blue">Add Product</Button>
           <Button colorScheme="blue">Product Categories</Button>
         </HStack>
-      </HStack>
+      </Flex>
       <br />
-      <div className={style.table}>
-        <Table size="md">
-          <Thead>
-            <Tr>
-              <Th w="1%"></Th>
-              <Th>Name</Th>
-              <Th>Category</Th>
-              <Th>SKU</Th>
-              <Th>Price</Th>
-              <Th w="10%"></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {allProducts.map((product, index) => (
-              <Tr key={product.id}>
-                <Td>{index + 1}</Td>
-                <Td>
-                  <Flex alignItems="center">
-                    {product.images.length > 0 ? (
-                      <Image
-                        src={product.images[0].image}
-                        className={style.image}
-                        alt="image"
-                        width={100}
-                        height={100}
-                      />
-                    ) : null}
-                    {product.name}
-                  </Flex>
-                </Td>
-                <Td>{product.category.name}</Td>
-                <Td>{product.sku}</Td>
-                <Td>{product.price}</Td>
-                <Td>
-                  <Flex>
-                    <IconButton
-                      icon={<FiEdit />}
-                      colorScheme="blue"
-                      variant="ghost"
-                      aria-label={""}
-                    />
-                    <IconButton
-                      icon={<FiTrash />}
-                      colorScheme="red"
-                      variant="ghost"
-                      aria-label={""}
-                    />
-                  </Flex>
-                </Td>
+      {getProducts().length > 0 ? (
+        <div className={style.table}>
+          <Table size="md">
+            <Thead>
+              <Tr>
+                <Th w="1%"></Th>
+                <Th>Name</Th>
+                <Th>Category</Th>
+                <Th>SKU</Th>
+                <Th>Price</Th>
+                <Th w="10%"></Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </div>
+            </Thead>
+            <Tbody>
+              {getProducts().map((product, index) => (
+                <Tr key={product.id}>
+                  <Td>{index + 1}</Td>
+                  <Td>
+                    <Flex alignItems="center">
+                      {product.images.length > 0 ? (
+                        <Image
+                          src={product.images[0].image}
+                          className={style.image}
+                          alt="image"
+                          width={100}
+                          height={100}
+                        />
+                      ) : null}
+                      {product.name}
+                    </Flex>
+                  </Td>
+                  <Td>{product.category.name}</Td>
+                  <Td>{product.sku}</Td>
+                  <Td>{product.price}</Td>
+                  <Td>
+                    <Flex>
+                      <IconButton
+                        icon={<FiEdit />}
+                        colorScheme="blue"
+                        variant="ghost"
+                        aria-label={""}
+                      />
+                      <IconButton
+                        icon={<FiTrash />}
+                        colorScheme="red"
+                        variant="ghost"
+                        aria-label={""}
+                      />
+                    </Flex>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </div>
+      ) : (
+        <Box w="100%" p="1rem">
+          <Center>
+            <Heading size="md">No Products ... </Heading>
+          </Center>
+        </Box>
+      )}
     </div>
   );
 }
