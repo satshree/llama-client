@@ -24,13 +24,15 @@ import { FiTrash, FiEdit } from "react-icons/fi";
 import Image from "next/image";
 
 import { GlobalState, ProductType } from "@/types";
+
+import AddProduct from "../../../components/management/Product/AddProduct/AddProduct";
+import DeleteConfirmation from "@/components/common/DeleteConfirmation";
+
+import { API_ROOT } from "@/utils";
 import { fetchProduct } from "@/api/products";
+import { fetchCategories } from "@/api/category";
 
 import style from "./products.module.css";
-import { fetchCategories } from "@/api/category";
-import AddProduct from "./_AddProduct";
-import DeleteConfirmation from "@/components/common/DeleteConfirmation";
-import { API_ROOT } from "@/utils";
 
 function Products() {
   const dispatch = useDispatch();
