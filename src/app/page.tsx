@@ -1,4 +1,5 @@
 import { Text, Center, Flex, Heading, VStack } from "@chakra-ui/react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -11,8 +12,10 @@ export default function Home() {
           <Center>
             <Text>Currently in development</Text>
           </Center>
+          <br />
           <Center>
-            <Text fontSize="xs">Latest update on 26. Mar, 2024 12:31 PM</Text>
+            <Link href="/login">Login</Link> |{" "}
+            <Link href="/browse">Browse</Link>
           </Center>
         </div>
       </VStack>

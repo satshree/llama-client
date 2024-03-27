@@ -1,6 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { API_ROOT } from "@/utils";
+import {
+  API_ROOT,
+  removeAUthStateFromLocalStorage,
+  saveAuthStateToLocalStorage,
+  saveRefreshToCookies,
+} from "@/utils";
 import { AuthStateType } from "@/types";
 // import { AppThunk } from "@/store";
 
@@ -34,20 +39,33 @@ export const authTokenSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    fetchTokens(state, action: PayloadAction<Response>) {
-      state.token = {
-        access: action.payload.access,
-        refresh: action.payload.refresh,
-      };
+    setTokens(state, action: PayloadAction<Response | AuthStateType>) {
+      if (action.payload.hasOwnProperty("token")) {
+        state.token = action.payload.token;
+      } else {
+        state.token = {
+          access: action.payload.access,
+          refresh: action.payload.refresh,
+        };
+      }
 
-      state.user = {
-        id: action.payload.id,
-        username: action.payload.username,
-        super: action.payload.isSuper,
-      };
+      if (action.payload.hasOwnProperty("user")) {
+        state.user = action.payload.user;
+      } else {
+        state.user = {
+          id: action.payload.id,
+          username: action.payload.username,
+          super: action.payload.isSuper,
+        };
+      }
+
+      if (state.token.access) {
+        saveAuthStateToLocalStorage(state);
+      }
     },
     clearTokens(state) {
       state = initialState;
+      removeAUthStateFromLocalStorage();
     },
   },
 });
@@ -69,13 +87,13 @@ export const authTokenSlice = createSlice({
 // } else {
 //   const authData = await response.json();
 
-//   dispatch(fetchTokens(authData));
+//   dispatch(setTokens(authData));
 // }
 //   };
 
 // export const logout = (): AppThunk => async (dispatch) => dispatch(clearTokens);
 
-export const login = async (credentials: CredentialType) => {
+export const fetchTokens = async (credentials: CredentialType) => {
   const response = await fetch(API_ROOT + "/api/auth/login/", {
     method: "POST",
     headers: {
@@ -93,5 +111,5 @@ export const login = async (credentials: CredentialType) => {
   }
 };
 
-export const { fetchTokens, clearTokens } = authTokenSlice.actions;
+export const { setTokens, clearTokens } = authTokenSlice.actions;
 export default authTokenSlice.reducer;

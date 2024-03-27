@@ -18,7 +18,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
-import { fetchTokens, login } from "@/api/auth";
+import { setTokens, fetchTokens } from "@/api/auth";
 
 import style from "./login.module.css";
 
@@ -68,8 +68,8 @@ function Login() {
       setLoading(true);
 
       try {
-        const authData = await login({ username, password });
-        await dispatch(fetchTokens(authData));
+        const authData = await fetchTokens({ username, password });
+        await dispatch(setTokens(authData));
 
         if (authData.isSuper) {
           router.push("/management");

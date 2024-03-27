@@ -1,30 +1,40 @@
 "use client";
 
-import { GlobalState } from "@/types";
+import { AuthStateType } from "@/types";
 
-export function loadStateFromLocalStorage(): GlobalState {
-  return JSON.parse(localStorage.getItem("state") || "{}");
+export function loadAuthStateFromLocalStorage(): AuthStateType {
+  return JSON.parse(localStorage.getItem("auth") || "{}");
 }
 
-export function saveStateToLocalStorage(state: GlobalState) {
-  state.auth.token.refresh = undefined;
-  localStorage.setItem("state", JSON.stringify(state));
+export function saveAuthStateToLocalStorage(auth: AuthStateType) {
+  // let state: any = {
+  //   token: {
+  //     access: auth.token.access,
+  //   },
+  //   user: auth.user,
+  // };
+
+  localStorage.setItem("auth", JSON.stringify(auth));
 }
 
-export function saveRefreshToCookies(refresh: string) {
-  document.cookie = `refresh=${refresh};max-age=${
-    60 * // seconds
-    60 * // minutes
-    24 // 1 day
-  };SameSite;Secure;`;
+export function removeAUthStateFromLocalStorage() {
+  localStorage.removeItem("auth");
 }
 
-export function getRefreshFromCookies(): string | undefined {
-  const cookie = document.cookie
-    .split(";")
-    .filter((cookie) => cookie === "refresh");
+// export function saveRefreshToCookies(refresh: string) {
+//   document.cookie = `refresh=${refresh};max-age=${
+//     60 * // seconds
+//     60 * // minutes
+//     24 // 1 day
+//   };SameSite;Secure;`;
+// }
 
-  if (cookie.length > 0) {
-    return cookie[0];
-  }
-}
+// export function getRefreshFromCookies(): string | undefined {
+//   const cookie = document.cookie
+//     .split(";")
+//     .filter((cookie) => cookie === "refresh");
+
+//   if (cookie.length > 0) {
+//     return cookie[0];
+//   }
+// }
