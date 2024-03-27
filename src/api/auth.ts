@@ -2,9 +2,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import {
   API_ROOT,
-  removeAUthStateFromLocalStorage,
+  removeAuthStateFromLocalStorage,
   saveAuthStateToLocalStorage,
-  saveRefreshToCookies,
 } from "@/utils";
 import { AuthStateType } from "@/types";
 // import { AppThunk } from "@/store";
@@ -65,7 +64,7 @@ export const authTokenSlice = createSlice({
     },
     clearTokens(state) {
       state = initialState;
-      removeAUthStateFromLocalStorage();
+      removeAuthStateFromLocalStorage();
     },
   },
 });

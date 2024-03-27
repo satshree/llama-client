@@ -3,7 +3,19 @@
 import { AuthStateType } from "@/types";
 
 export function loadAuthStateFromLocalStorage(): AuthStateType {
-  return JSON.parse(localStorage.getItem("auth") || "{}");
+  const defaultReturn = JSON.stringify({
+    token: {
+      access: "",
+      refresh: "",
+    },
+    user: {
+      id: "",
+      username: "",
+      super: false,
+    },
+  });
+
+  return JSON.parse(localStorage.getItem("auth") || `${defaultReturn}`);
 }
 
 export function saveAuthStateToLocalStorage(auth: AuthStateType) {
@@ -17,7 +29,7 @@ export function saveAuthStateToLocalStorage(auth: AuthStateType) {
   localStorage.setItem("auth", JSON.stringify(auth));
 }
 
-export function removeAUthStateFromLocalStorage() {
+export function removeAuthStateFromLocalStorage() {
   localStorage.removeItem("auth");
 }
 

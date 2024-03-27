@@ -25,7 +25,6 @@ export function CustomChakraProvider({
       saveAuthStateToLocalStorage(auth);
     } else {
       const localAuth = loadAuthStateFromLocalStorage();
-      console.log("here");
       dispatch(setTokens(localAuth));
     }
   }, []);
