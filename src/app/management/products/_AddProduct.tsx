@@ -1,8 +1,7 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -21,9 +20,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { GlobalState, ProductType } from "@/types";
+import { GlobalState } from "@/types";
 import { API_ROOT } from "@/utils";
-import { fetchProduct, setProducts } from "@/api/products";
+import { fetchProduct } from "@/api/products";
 
 type AddProductType = {
   open: true | false;
@@ -90,9 +89,17 @@ function AddProduct(props: AddProductType) {
 
   const clearForm = () => {
     setName("");
+    setNameError("");
+
     setPrice(0);
+    setPriceError("");
+
     setSku("");
+    setSkuError("");
+
     setCategory("");
+    setCategoryError("");
+
     setDescription("");
   };
 
@@ -155,7 +162,6 @@ function AddProduct(props: AddProductType) {
             props.onClose();
           }
         })
-        .then((response) => {})
         .catch((err) => {
           console.log(err);
           toast({
@@ -258,6 +264,8 @@ function AddProduct(props: AddProductType) {
               placeholder="Description about the product"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              rows={10}
+              resize="none"
             ></Textarea>
           </FormControl>
         </ModalBody>

@@ -18,26 +18,32 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
 } from "@chakra-ui/react";
 import { FiTrash, FiEdit } from "react-icons/fi";
 import Image from "next/image";
 
-import { CategoryType, GlobalState, ProductType } from "@/types";
+import { GlobalState, ProductType } from "@/types";
 import { fetchProduct } from "@/api/products";
 
 import style from "./products.module.css";
 import { fetchCategories } from "@/api/category";
 import AddProduct from "./_AddProduct";
+import DeleteConfirmation from "@/components/common/DeleteConfirmation";
+import { API_ROOT } from "@/utils";
 
 function Products() {
   const dispatch = useDispatch();
   const { products } = useSelector((state: GlobalState) => state.products);
-  const { categories } = useSelector((state: GlobalState) => state.categories);
+  const { access } = useSelector((state: GlobalState) => state.auth.token);
+
+  const toast = useToast();
 
   const [search, setSearch] = useState("");
   const [addModalOpen, toggleAddModal] = useState(false);
   const [allProducts, setProducts] = useState<ProductType[]>([]);
-  const [allCategories, setCategories] = useState<CategoryType[]>([]);
+
+  const [deleteID, setDeleteID] = useState("");
 
   useEffect(() => {
     const updateProducts = async () => {
@@ -56,10 +62,6 @@ function Products() {
     setProducts(products);
   }, [products]);
 
-  useEffect(() => {
-    setCategories(categories);
-  }, [categories]);
-
   const getProducts = () => {
     if (search) {
       return allProducts.filter((product) =>
@@ -68,6 +70,35 @@ function Products() {
     }
 
     return allProducts;
+  };
+
+  const deleteProduct = () => {
+    fetch(API_ROOT + `/api/management/product/${deleteID}/`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    }).then(async (resp) => {
+      const response = await resp.json();
+      if (resp.status !== 200) {
+        console.log(response);
+        toast({
+          title: "Something went wrong",
+          status: "warning",
+          isClosable: true,
+          position: "top-right",
+        });
+      } else {
+        toast({
+          title: "Product deleted",
+          status: "success",
+          isClosable: true,
+          position: "top-right",
+        });
+        setDeleteID("");
+        dispatch(fetchProduct());
+      }
+    });
   };
 
   return (
@@ -135,6 +166,7 @@ function Products() {
                         colorScheme="red"
                         variant="ghost"
                         aria-label={""}
+                        onClick={() => setDeleteID(product.id)}
                       />
                     </Flex>
                   </Td>
@@ -151,6 +183,13 @@ function Products() {
         </Box>
       )}
 
+      <DeleteConfirmation
+        open={deleteID !== ""}
+        title="Delete Product"
+        text="Are you sure you want to delete this product? This action cannot be undone!"
+        onClose={() => setDeleteID("")}
+        action={deleteProduct}
+      />
       <AddProduct open={addModalOpen} onClose={() => toggleAddModal(false)} />
     </div>
   );
