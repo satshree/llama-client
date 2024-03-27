@@ -74,6 +74,7 @@ function Login() {
           title: "Unable to login",
           status: "error",
           isClosable: true,
+          position: "top-right",
         });
       }
 

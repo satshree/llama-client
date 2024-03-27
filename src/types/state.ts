@@ -1,6 +1,7 @@
 import {
   BillType,
   CartType,
+  CategoryType,
   ProductType,
   UserType,
   WishlistType,
@@ -36,7 +37,12 @@ export interface GlobalState {
   products: {
     products: ProductType[];
   };
+  categories: {
+    categories: CategoryType[];
+  };
   cart: CartType;
   wishlist: WishlistType;
-  userBills: BillType[];
+  userBills: {
+    bills: BillType[];
+  };
 }

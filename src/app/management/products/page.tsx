@@ -22,17 +22,22 @@ import {
 import { FiTrash, FiEdit } from "react-icons/fi";
 import Image from "next/image";
 
-import { GlobalState, ProductType } from "@/types";
+import { CategoryType, GlobalState, ProductType } from "@/types";
 import { fetchProduct } from "@/api/products";
 
 import style from "./products.module.css";
+import { fetchCategories } from "@/api/category";
+import AddProduct from "./_AddProduct";
 
 function Products() {
   const dispatch = useDispatch();
   const { products } = useSelector((state: GlobalState) => state.products);
+  const { categories } = useSelector((state: GlobalState) => state.categories);
 
   const [search, setSearch] = useState("");
+  const [addModalOpen, toggleAddModal] = useState(false);
   const [allProducts, setProducts] = useState<ProductType[]>([]);
+  const [allCategories, setCategories] = useState<CategoryType[]>([]);
 
   useEffect(() => {
     const updateProducts = async () => {
@@ -40,11 +45,20 @@ function Products() {
     };
 
     updateProducts();
+
+    const updateCategories = async () => {
+      await dispatch(fetchCategories());
+    };
+    updateCategories();
   }, []);
 
   useEffect(() => {
     setProducts(products);
   }, [products]);
+
+  useEffect(() => {
+    setCategories(categories);
+  }, [categories]);
 
   const getProducts = () => {
     if (search) {
@@ -67,7 +81,9 @@ function Products() {
           />
         </FormControl>
         <HStack spacing={2}>
-          <Button colorScheme="blue">Add Product</Button>
+          <Button colorScheme="blue" onClick={() => toggleAddModal(true)}>
+            Add Product
+          </Button>
           <Button colorScheme="blue">Product Categories</Button>
         </HStack>
       </Flex>
@@ -134,6 +150,8 @@ function Products() {
           </Center>
         </Box>
       )}
+
+      <AddProduct open={addModalOpen} onClose={() => toggleAddModal(false)} />
     </div>
   );
 }
