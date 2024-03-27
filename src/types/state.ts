@@ -33,7 +33,9 @@ export interface AuthStateType {
 export interface GlobalState {
   auth: AuthStateType;
   user: UserType;
-  products: ProductType[];
+  products: {
+    products: ProductType[];
+  };
   cart: CartType;
   wishlist: WishlistType;
   userBills: BillType[];

@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FiUser } from "react-icons/fi";
 
 import { GlobalState } from "@/types";
-import { clearTokens } from "@/api/auth";
+import { endSession } from "@/api/auth";
 
 import style from "./header.module.css";
 
@@ -23,8 +23,8 @@ function Header() {
 
   const { username } = useSelector((state: GlobalState) => state.auth.user);
 
-  const logout = () => {
-    dispatch(clearTokens());
+  const logout = async () => {
+    await dispatch(endSession());
     router.push("/");
   };
 
