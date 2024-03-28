@@ -1,7 +1,11 @@
+"use client";
+
 import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import {
   API_ROOT,
+  clearAllIntervals,
+  loadAuthStateFromLocalStorage,
   removeAuthStateFromLocalStorage,
   saveAuthStateToLocalStorage,
 } from "@/utils";
@@ -61,11 +65,19 @@ const authTokenSlice = createSlice({
         saveAuthStateToLocalStorage(state);
       }
     },
+    refreshToken(state, action: PayloadAction<string>) {
+      state.token.access = action.payload;
+
+      let localAuth = loadAuthStateFromLocalStorage();
+      localAuth.token.access = action.payload;
+      saveAuthStateToLocalStorage(state);
+    },
     clearTokens(state) {
       state.token = initialState.token;
       state.user = initialState.user;
 
       removeAuthStateFromLocalStorage();
+      clearAllIntervals();
     },
   },
 });
@@ -95,8 +107,27 @@ export const fetchTokens =
     }
   };
 
+export const refreshTokens =
+  (refresh: string) => async (dispatch: Dispatch) => {
+    const response = await fetch(API_ROOT + "/api/auth/refresh/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refresh }),
+    });
+
+    if (response.status !== 200) {
+      console.dir(response);
+      throw new Error("Something went wrong");
+    } else {
+      const authData = await response.json();
+      await dispatch(refreshToken(authData.access));
+    }
+  };
+
 export const endSession = () => async (dispatch: Dispatch) =>
   dispatch(clearTokens());
 
-export const { setTokens, clearTokens } = authTokenSlice.actions;
+export const { setTokens, refreshToken, clearTokens } = authTokenSlice.actions;
 export default authTokenSlice.reducer;

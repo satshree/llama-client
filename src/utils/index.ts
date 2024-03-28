@@ -1,5 +1,8 @@
-import { AddressType } from "@/types";
+"use client";
+
 import moment from "moment";
+
+import { AddressType } from "@/types";
 
 export function parseDate(
   date: string,
@@ -42,6 +45,16 @@ export function parseAddress(address: string): AddressType {
         ? ""
         : addressSplit[4].replace(" ", ""),
   };
+}
+
+export function clearAllIntervals(): void {
+  // CLEAR OUT THE INTERVALS
+  const interval_id = window.setInterval(function () {},
+  Number.MAX_SAFE_INTEGER);
+
+  for (let i = 1; i < interval_id; i++) {
+    window.clearInterval(i);
+  }
 }
 
 export const API_ROOT = process.env.NEXT_PUBLIC_API_ROOT || "localhost:8080";

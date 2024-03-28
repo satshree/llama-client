@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import StoreProvider from "./storeProvider";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { CustomChakraProvider } from "./chakraProvider";
+import { AppProvider } from "./appProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <StoreProvider>
-          <CustomChakraProvider>{children}</CustomChakraProvider>
+          <AppProvider>{children}</AppProvider>
         </StoreProvider>
       </body>
     </html>
