@@ -1,32 +1,18 @@
 "use client";
 
-// import { useRouter } from "next/navigation";
 import { Grid, GridItem } from "@chakra-ui/react";
 
 import Header from "@/components/management/Header/page";
 import SideNav from "@/components/management/SideNav/page";
 
 import style from "./management.module.css";
-
-import { loadAuthStateFromLocalStorage } from "@/utils";
+import isAdmin from "../isAdmin";
 
 function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const router = useRouter();
-  const { user } = loadAuthStateFromLocalStorage();
-
-  if (!user.super) {
-    if (typeof window !== "undefined") {
-      window.alert("Unauthorized!");
-      window.location.href = "/";
-    } else {
-      // router.push("/");
-    }
-  }
-
   return (
     <Grid
       templateAreas={`"nav header"
@@ -48,4 +34,4 @@ function RootLayout({
   );
 }
 
-export default RootLayout;
+export default isAdmin(RootLayout);

@@ -6,5 +6,15 @@ export type AddressType = {
   country: string;
 };
 
+export interface IAnalytics {
+  totalSales: number;
+  totalCashFlow: number;
+  totalProducts: number;
+  totalUsers: {
+    total: number;
+    adminUser: number;
+  };
+}
+
 export * from "./state";
 export * from "./models";
