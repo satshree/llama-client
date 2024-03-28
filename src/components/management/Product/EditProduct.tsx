@@ -435,14 +435,14 @@ function EditProduct(props: EditProductProps) {
               variant="outline"
               mr={3}
               onClick={props.onClose}
-              disabled={loading || uploadLoading}
+              isDisabled={loading || uploadLoading}
             >
               Cancel
             </Button>
             <Button
               colorScheme="green"
               isLoading={loading}
-              disabled={uploadLoading}
+              isDisabled={uploadLoading}
               onClick={onSubmit}
             >
               Save

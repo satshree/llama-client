@@ -34,6 +34,7 @@ import { fetchCategories } from "@/api/category";
 
 import style from "./products.module.css";
 import EditProduct from "@/components/management/Product/EditProduct";
+import ProductCategory from "@/components/management/Product/ProductCategory";
 
 const dummyProduct: ProductType = {
   id: "",
@@ -58,6 +59,8 @@ function Products() {
   const [search, setSearch] = useState("");
   const [addModalOpen, toggleAddModal] = useState(false);
   const [allProducts, setProducts] = useState<ProductType[]>([]);
+
+  const [categoryDrawer, toggleCategoryDrawer] = useState(false);
 
   const [deleteID, setDeleteID] = useState("");
 
@@ -170,7 +173,9 @@ function Products() {
           <Button colorScheme="blue" onClick={() => toggleAddModal(true)}>
             Add Product
           </Button>
-          <Button colorScheme="blue">Product Categories</Button>
+          <Button colorScheme="blue" onClick={() => toggleCategoryDrawer(true)}>
+            Product Categories
+          </Button>
         </HStack>
       </Flex>
       <br />
@@ -245,6 +250,12 @@ function Products() {
         text="Delete this product? This action cannot be undone!"
         onClose={() => setDeleteID("")}
         action={deleteProduct}
+      />
+
+      <ProductCategory
+        open={categoryDrawer}
+        onClose={() => toggleCategoryDrawer(false)}
+        fetch={() => dispatch(fetchCategories())}
       />
       <AddProduct open={addModalOpen} onClose={() => toggleAddModal(false)} />
       <EditProduct
