@@ -33,6 +33,20 @@ import { fetchProduct } from "@/api/products";
 import { fetchCategories } from "@/api/category";
 
 import style from "./products.module.css";
+import EditProduct from "@/components/management/Product/EditProduct";
+
+const dummyProduct: ProductType = {
+  id: "",
+  name: "",
+  description: "",
+  price: 0,
+  sku: "",
+  category: {
+    id: "",
+    name: "",
+  },
+  images: [],
+};
 
 function Products() {
   const dispatch = useDispatch();
@@ -46,6 +60,9 @@ function Products() {
   const [allProducts, setProducts] = useState<ProductType[]>([]);
 
   const [deleteID, setDeleteID] = useState("");
+
+  const [editMode, setEditMode] = useState(false);
+  const [editProduct, setEditProduct] = useState<ProductType>(dummyProduct);
 
   useEffect(() => {
     const updateProducts = async () => {
@@ -92,6 +109,11 @@ function Products() {
     }
 
     return allProducts;
+  };
+
+  const editProductDrawer = (product: ProductType) => {
+    setEditMode(true);
+    setEditProduct(product);
   };
 
   const deleteProduct = () => {
@@ -193,6 +215,7 @@ function Products() {
                         colorScheme="blue"
                         variant="ghost"
                         aria-label={""}
+                        onClick={() => editProductDrawer(product)}
                       />
                       <IconButton
                         icon={<FiTrash />}
@@ -219,11 +242,20 @@ function Products() {
       <DeleteConfirmation
         open={deleteID !== ""}
         title="Delete Product"
-        text="Are you sure you want to delete this product? This action cannot be undone!"
+        text="Delete this product? This action cannot be undone!"
         onClose={() => setDeleteID("")}
         action={deleteProduct}
       />
       <AddProduct open={addModalOpen} onClose={() => toggleAddModal(false)} />
+      <EditProduct
+        open={editMode}
+        onClose={() => setEditMode(false)}
+        product={editProduct}
+        reset={() => {
+          setEditProduct(dummyProduct);
+          dispatch(fetchProduct());
+        }}
+      />
     </div>
   );
 }
