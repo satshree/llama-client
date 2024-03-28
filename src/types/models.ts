@@ -10,7 +10,8 @@ export type UserType = {
   email?: string;
   address?: string;
   phone?: string;
-  is_super?: false;
+  password?: string;
+  is_super?: boolean;
   last_login?: string;
   date_joined?: string;
   cart_id?: string;
