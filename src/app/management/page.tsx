@@ -6,7 +6,11 @@ function Management() {
   const pathname = usePathname();
   const router = useRouter();
 
-  if (pathname === "/management") router.push("/management/home"); // route to home
+  try {
+    if (pathname === "/management") router.push("/management/home"); // route to home
+  } catch {
+    //
+  }
   return <div></div>;
 }
 
