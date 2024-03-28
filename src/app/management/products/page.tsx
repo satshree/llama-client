@@ -74,8 +74,9 @@ function Products() {
       } catch (err) {
         console.log(err);
         toast({
-          title: "Unable to fetch products",
-          status: "error",
+          title: "Something went wrong",
+          description: "Unable to fetch products",
+          status: "warning",
           isClosable: true,
           position: "top-right",
         });
@@ -90,8 +91,9 @@ function Products() {
       } catch (err) {
         console.log(err);
         toast({
-          title: "Unable to fetch product categories",
-          status: "error",
+          title: "Something went wrong",
+          description: "Unable to fetch product categories",
+          status: "warning",
           isClosable: true,
           position: "top-right",
         });

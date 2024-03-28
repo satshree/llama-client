@@ -13,6 +13,7 @@ import {
   StatNumber,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 
 import { fetchBills } from "@/api/billingManagement";
@@ -48,6 +49,7 @@ const dummyBillData: BillType = {
 };
 
 function Billings() {
+  const toast = useToast();
   const dispatch = useDispatch();
   const { bills } = useSelector((state: GlobalState) => state.bills);
 
@@ -56,7 +58,20 @@ function Billings() {
   const [allBills, setAllBills] = useState<BillType[]>([]);
 
   useEffect(() => {
-    const fetchAllBills = async () => await dispatch(fetchBills());
+    const fetchAllBills = async () => {
+      try {
+        await dispatch(fetchBills());
+      } catch (err) {
+        console.log(err);
+        toast({
+          title: "Something went wrong",
+          description: "Unable to fetch bills",
+          status: "warning",
+          isClosable: true,
+          position: "top-right",
+        });
+      }
+    };
     fetchAllBills();
   }, []);
   useEffect(() => setAllBills(bills), [bills]);
