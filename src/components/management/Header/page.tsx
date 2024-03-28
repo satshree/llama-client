@@ -8,7 +8,7 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { FiUser } from "react-icons/fi";
 
@@ -19,13 +19,12 @@ import style from "./header.module.css";
 
 function Header() {
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const { username } = useSelector((state: GlobalState) => state.auth.user);
 
   const logout = async () => {
     await dispatch(endSession());
-    router.push("/");
+    redirect("/");
   };
 
   return (

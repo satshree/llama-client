@@ -6,7 +6,7 @@ import Header from "@/components/management/Header/page";
 import SideNav from "@/components/management/SideNav/page";
 
 import style from "./management.module.css";
-import isAdmin from "../isAdmin";
+import isAdmin from "../../middlewares/isAdmin";
 
 function RootLayout({
   children,
