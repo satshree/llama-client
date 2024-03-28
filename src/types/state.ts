@@ -42,6 +42,9 @@ export interface GlobalState {
   };
   cart: CartType;
   wishlist: WishlistType;
+  bills: {
+    bills: BillType[];
+  };
   userBills: {
     bills: BillType[];
   };

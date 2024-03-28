@@ -121,6 +121,7 @@ export type BillInfoType = {
 
 export type BillType = {
   id: string;
+  date: string;
   info: BillInfoType;
   subtotal: number;
   discount: number;
