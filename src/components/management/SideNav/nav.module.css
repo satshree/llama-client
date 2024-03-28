@@ -13,11 +13,16 @@
   border-radius: 8px;
 
   text-decoration: none;
+
+  transition: all 0.1s linear;
 }
 
 .nav:hover {
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: #4d9fed;
+  color: white;
+
+  transition: all 0.1s linear;
 }
 
 .nav:last-child {
@@ -25,5 +30,9 @@
 }
 
 .active {
-  background-color: #ffffff;
+  background-color: #3182ce;
+  color: white;
+  font-weight: 600;
+
+  transition: all 0.1s linear;
 }

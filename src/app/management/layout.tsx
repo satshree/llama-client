@@ -1,11 +1,7 @@
 "use client";
 
 // import { useRouter } from "next/navigation";
-import {
-  Grid,
-  GridItem,
-  // useToast
-} from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 
 import Header from "@/components/management/Header/page";
 import SideNav from "@/components/management/SideNav/page";
@@ -19,21 +15,16 @@ function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const toast = useToast();
   // const router = useRouter();
   const { user } = loadAuthStateFromLocalStorage();
 
   if (!user.super) {
-    // toast({
-    //   title: "Unauthorized!",
-    //   description: "You are not authorized to view the contents of that page.",
-    //   status: "warning",
-    //   isClosable: true,
-    // });
-    // router.push("/");
-
-    window.alert("Unauthorized!");
-    window.location.href = "/";
+    if (typeof window !== "undefined") {
+      window.alert("Unauthorized!");
+      window.location.href = "/";
+    } else {
+      // router.push("/");
+    }
   }
 
   return (
