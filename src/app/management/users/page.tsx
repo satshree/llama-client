@@ -140,7 +140,11 @@ function Users() {
             >
               <Flex alignItems="center" justifyContent="space-between">
                 <div>
-                  <Text fontSize="large">{user.username}</Text>
+                  <Text fontSize="large">
+                    {user.first_name ?? user.last_name
+                      ? `${user.first_name} ${user.last_name}`
+                      : user.username}
+                  </Text>
                   <Flex>
                     {user.email ?? <Text>{user.email}</Text>}
                     {user.email ? ", " : null}

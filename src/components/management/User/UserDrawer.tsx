@@ -45,6 +45,7 @@ interface UserDrawerProps {
 function UserDrawer(props: UserDrawerProps) {
   const toast = useToast();
   const { access } = useSelector((state: GlobalState) => state.auth.token);
+  const { user } = useSelector((state: GlobalState) => state.auth);
 
   const [open, setOpen] = useState(false);
 
@@ -130,6 +131,43 @@ function UserDrawer(props: UserDrawerProps) {
   }, [props.data]);
 
   useEffect(() => setOpen(props.open), [props.open]);
+
+  const resetForm = () => {
+    setFirstName("");
+    setFirstNameError("");
+
+    setLastName("");
+    setLastNameError("");
+
+    setEmail("");
+    setEmailError("");
+
+    setPhone("");
+    setPhoneError("");
+
+    setUsername("");
+    setUsernameError("");
+
+    setPassword("");
+    setPasswordError("");
+
+    setAddress("");
+    setAddressError("");
+
+    setAddressState("");
+    setAddressStateError("");
+
+    setCity("");
+    setCityError("");
+
+    setZip("");
+    setZipError("");
+
+    setCountry("");
+    setCountryError("");
+
+    setIsSuper(false);
+  };
 
   const onFirstNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
@@ -376,6 +414,7 @@ function UserDrawer(props: UserDrawerProps) {
         size="xl"
         placement="right"
         onClose={loading ? () => {} : props.onClose}
+        onCloseComplete={() => resetForm()}
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -543,6 +582,7 @@ function UserDrawer(props: UserDrawerProps) {
                     <FormControl isInvalid={confirmPasswordError !== ""}>
                       <FormLabel>Confirm Password</FormLabel>
                       <Input
+                        type="password"
                         placeholder="Confirm Password"
                         value={confirmPassword}
                         onChange={onConfirmPasswordChange}
@@ -580,7 +620,12 @@ function UserDrawer(props: UserDrawerProps) {
               Cancel
             </Button>
             {props.mode === "edit" ? (
-              <Button mr={3} colorScheme="red" onClick={() => setDelete(true)}>
+              <Button
+                mr={3}
+                colorScheme="red"
+                onClick={() => setDelete(true)}
+                isDisabled={user.id === props.data.id}
+              >
                 Delete
               </Button>
             ) : null}
