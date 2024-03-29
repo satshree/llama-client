@@ -21,5 +21,10 @@
 }
 
 .card {
-  width: 300px;
+  max-width: 300px;
+}
+
+.product-title:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }

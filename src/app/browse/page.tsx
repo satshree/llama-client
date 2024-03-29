@@ -18,10 +18,25 @@ import { GlobalState, ProductType } from "@/types";
 
 import Header from "@/components/store/Header";
 import QueryBox from "@/components/store/QueryBox";
+import ProductModal from "@/components/store/ProductModal";
 
 import style from "./browse.module.css";
 
 import logo from "@/assets/logo_transparent2.png";
+import { FiHeart } from "react-icons/fi";
+
+const dummyData: ProductType = {
+  id: "",
+  name: "",
+  description: "",
+  sku: "",
+  price: 0,
+  category: {
+    id: "",
+    name: "",
+  },
+  images: [],
+};
 
 function Browse() {
   const { products } = useSelector((state: GlobalState) => state.products);
@@ -29,9 +44,14 @@ function Browse() {
   const [filterSearch, setFilterSearch] = useState("");
   const [allProducts, setProducts] = useState<ProductType[]>([]);
 
+  const [productModal, setProductModal] = useState<ProductType>(dummyData);
+
   useEffect(() => setProducts(products), [products]);
 
   const getProducts = () => allProducts;
+
+  const addToCart = () => {};
+  const addToCartFromModal = () => {};
 
   return (
     <>
@@ -54,12 +74,7 @@ function Browse() {
           <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="2rem">
             {getProducts().length > 0 ? (
               getProducts().map((product) => (
-                <Card
-                  key={product.id}
-                  className={style.card}
-                  maxW="md"
-                  borderRadius={8}
-                >
+                <Card key={product.id} className={style.card} borderRadius={8}>
                   <Image
                     className={style["product-image"]}
                     src={
@@ -74,17 +89,35 @@ function Browse() {
                   />
                   <CardBody>
                     <Flex alignItems="center" justifyContent="space-between">
-                      <Text fontSize="large">{product.name}</Text>
+                      <Text
+                        className={style["product-title"]}
+                        fontSize="large"
+                        onClick={() => setProductModal(product)}
+                      >
+                        {product.name}
+                      </Text>
                       <Text mr="0.5rem">${product.price}</Text>
                     </Flex>
-                    <Flex alignItems="center" justifyContent="space-between">
+                    <Flex
+                      alignItems="center"
+                      justifyContent="space-between"
+                      mt="0.5rem"
+                    >
                       <Text fontSize="xs">{product.category.name}</Text>
-                      <IconButton
-                        icon={<TbShoppingCartPlus />}
-                        aria-label={""}
-                        variant="ghost"
-                        colorScheme="gray"
-                      />
+                      <div>
+                        <IconButton
+                          icon={<FiHeart />}
+                          aria-label={""}
+                          variant="ghost"
+                          colorScheme="pink"
+                        />
+                        <IconButton
+                          icon={<TbShoppingCartPlus />}
+                          aria-label={""}
+                          variant="ghost"
+                          colorScheme="gray"
+                        />
+                      </div>
                     </Flex>
                   </CardBody>
                 </Card>
@@ -95,6 +128,13 @@ function Browse() {
           </SimpleGrid>
         </div>
       </div>
+
+      <ProductModal
+        open={productModal.id !== ""}
+        data={productModal}
+        addToCart={addToCartFromModal}
+        onClose={() => setProductModal(dummyData)}
+      />
     </>
   );
 }
