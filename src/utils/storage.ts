@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthStateType } from "@/types";
+import { AuthStateType, CartType } from "@/types";
 
 export function loadAuthStateFromLocalStorage(): AuthStateType {
   const defaultReturn = JSON.stringify({
@@ -28,4 +28,31 @@ export function saveAuthStateToLocalStorage(auth: AuthStateType) {
 
 export function removeAuthStateFromLocalStorage() {
   localStorage.removeItem("auth");
+}
+
+export function saveCartToLocalStorage(cart: CartType) {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+export function loadCartFromLocalStorage(): CartType {
+  const defaultReturn = JSON.stringify({
+    id: "",
+    updated: "",
+    total: 0,
+    user: {
+      id: "",
+      username: "",
+    },
+    items: [],
+  });
+
+  try {
+    return JSON.parse(localStorage.getItem("cart") || `${defaultReturn}`);
+  } catch {
+    return JSON.parse(defaultReturn);
+  }
+}
+
+export function removeCartFromLocalStorage() {
+  localStorage.removeItem("cart");
 }

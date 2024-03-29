@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import {
+  ButtonGroup,
   Card,
   CardBody,
   Flex,
@@ -24,6 +25,9 @@ import style from "./browse.module.css";
 
 import logo from "@/assets/logo_transparent2.png";
 import { FiHeart } from "react-icons/fi";
+import Cart from "@/components/store/Cart";
+import { fetchCart } from "@/api/cart";
+import { API_ROOT } from "@/utils";
 
 const dummyData: ProductType = {
   id: "",
@@ -39,29 +43,61 @@ const dummyData: ProductType = {
 };
 
 function Browse() {
+  const dispatch = useDispatch();
+
   const { products } = useSelector((state: GlobalState) => state.products);
+  const { categories } = useSelector((state: GlobalState) => state.categories);
 
   const [filterSearch, setFilterSearch] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
   const [allProducts, setProducts] = useState<ProductType[]>([]);
 
   const [productModal, setProductModal] = useState<ProductType>(dummyData);
 
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, []);
+
   useEffect(() => setProducts(products), [products]);
 
-  const getProducts = () => allProducts;
+  const filterProductsByCategory = () =>
+    filterCategory === ""
+      ? allProducts
+      : allProducts.filter((product) => product.category.id === filterCategory);
+  const filterProductsBySearch = () =>
+    filterSearch === ""
+      ? filterProductsByCategory()
+      : filterProductsByCategory().filter((product) =>
+          product.name.toLowerCase().includes(filterSearch.toLowerCase())
+        );
 
-  const addToCart = () => {};
+  const getCategoryNameTitle = () => {
+    for (let category of categories) {
+      if (category.id === filterCategory) return category.name;
+    }
+
+    return "All";
+  };
+
+  const getProducts = () => filterProductsBySearch();
+
+  const addToCart = () => {
+    fetch(API_ROOT + "/api/website/cart/");
+  };
   const addToCartFromModal = () => {};
 
   return (
     <>
       <div className={style.page}>
         <Header />
-        <QueryBox />
+        <QueryBox
+          currentFilter={filterCategory}
+          setFilterCategory={setFilterCategory}
+        />
         <div className={style.main}>
           <Flex alignItems="center" justifyContent="space-between">
             <Text fontWeight={600} fontSize="larger" mr="1rem">
-              All
+              {getCategoryNameTitle()}
             </Text>
             <Input
               placeholder="Filter"
@@ -87,37 +123,34 @@ function Browse() {
                     width={300}
                     // fill={true}
                   />
-                  <CardBody>
-                    <Flex alignItems="center" justifyContent="space-between">
-                      <Text
-                        className={style["product-title"]}
-                        fontSize="large"
-                        onClick={() => setProductModal(product)}
-                      >
-                        {product.name}
-                      </Text>
-                      <Text mr="0.5rem">${product.price}</Text>
-                    </Flex>
+                  <CardBody pr="0.5rem">
+                    <Text
+                      className={style["product-title"]}
+                      fontSize="large"
+                      onClick={() => setProductModal(product)}
+                    >
+                      {product.name.length > 15
+                        ? `${product.name.substring(0, 15)}...`
+                        : product.name}
+                    </Text>
                     <Flex
                       alignItems="center"
                       justifyContent="space-between"
                       mt="0.5rem"
                     >
-                      <Text fontSize="xs">{product.category.name}</Text>
-                      <div>
+                      <Text>${product.price}</Text>
+                      <ButtonGroup variant="ghost" spacing={0}>
                         <IconButton
                           icon={<FiHeart />}
                           aria-label={""}
-                          variant="ghost"
                           colorScheme="pink"
                         />
                         <IconButton
                           icon={<TbShoppingCartPlus />}
                           aria-label={""}
-                          variant="ghost"
                           colorScheme="gray"
                         />
-                      </div>
+                      </ButtonGroup>
                     </Flex>
                   </CardBody>
                 </Card>
@@ -135,6 +168,7 @@ function Browse() {
         addToCart={addToCartFromModal}
         onClose={() => setProductModal(dummyData)}
       />
+      <Cart />
     </>
   );
 }

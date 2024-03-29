@@ -45,7 +45,10 @@ export interface GlobalState {
   categories: {
     categories: CategoryType[];
   };
-  cart: CartType;
+  cart: {
+    open: true | false;
+    cart: CartType;
+  };
   wishlist: WishlistType;
   bills: {
     bills: BillType[];

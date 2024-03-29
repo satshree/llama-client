@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 
 import { GlobalState, IAnalytics } from "@/types";
-import { API_ROOT } from "@/utils";
+import { API_ROOT, roundDecimal } from "@/utils";
 import moment from "moment";
 
 const dummyAnalytics: IAnalytics = {
@@ -91,7 +91,7 @@ function Management() {
           <CardBody>
             <Stat>
               <StatLabel>Total Cashflow</StatLabel>
-              <StatNumber>${analytics.totalCashFlow}</StatNumber>
+              <StatNumber>${roundDecimal(analytics.totalCashFlow)}</StatNumber>
             </Stat>
           </CardBody>
         </Card>

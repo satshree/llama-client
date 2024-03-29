@@ -104,15 +104,22 @@ function ProductModal(props: ProductModalProps) {
         </ModalBody>
 
         <ModalFooter>
-          <Button mr={3} onClick={props.onClose}>
-            Close
-          </Button>
-          <Button variant="outline" colorScheme="pink" mr={3}>
-            Add to Wishlist
-          </Button>
-          <Button variant="outline" colorScheme="blue">
-            Add to Cart
-          </Button>
+          <Flex w="100%" alignItems="center" justifyContent="space-between">
+            <div>
+              <Text>{product.category.name}</Text>
+            </div>
+            <div>
+              <Button mr={3} onClick={props.onClose}>
+                Close
+              </Button>
+              <Button variant="outline" colorScheme="pink" mr={3}>
+                Add to Wishlist
+              </Button>
+              <Button variant="outline" colorScheme="blue">
+                Add to Cart
+              </Button>
+            </div>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>

@@ -8,12 +8,19 @@ import { CategoryType, GlobalState } from "@/types";
 
 import style from "./box.module.css";
 
-function QueryBox() {
+interface QueryBoxProps {
+  currentFilter: string;
+  setFilterCategory: (id: string) => void;
+}
+
+function QueryBox(props: QueryBoxProps) {
   const { categories } = useSelector((state: GlobalState) => state.categories);
 
   const [allCategories, setAllCategories] = useState<CategoryType[]>([]);
+  const [currentFilter, setCurrentFilter] = useState("");
 
   useEffect(() => setAllCategories(categories), [categories]);
+  useEffect(() => setCurrentFilter(props.currentFilter), [props.currentFilter]);
 
   return (
     <div className={style.box}>
@@ -27,11 +34,19 @@ function QueryBox() {
             colorScheme="gray"
             key={category.id}
             size="sm"
+            isActive={currentFilter === category.id}
+            onClick={() => props.setFilterCategory(category.id)}
           >
             {category.name}
           </Button>
         ))}
-        <Button w="100%" variant="ghost" colorScheme="red" size="sm">
+        <Button
+          w="100%"
+          variant="ghost"
+          colorScheme="red"
+          size="sm"
+          onClick={() => props.setFilterCategory("")}
+        >
           Remove filter
         </Button>
       </VStack>

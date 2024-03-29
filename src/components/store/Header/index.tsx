@@ -9,9 +9,15 @@ import style from "./header.module.css";
 
 import logo from "../../../assets/logo_only.png";
 import title from "../../../assets/title_only.png";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleCart } from "@/api/cart";
+import { GlobalState } from "@/types";
 
 function Header() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const cartOpen = useSelector((state: GlobalState) => state.cart.open);
 
   return (
     <div className={style.header}>
@@ -41,6 +47,7 @@ function Header() {
           aria-label={""}
           variant="ghost"
           colorScheme="gray"
+          onClick={() => dispatch(toggleCart(!cartOpen))}
         />
       </HStack>
     </div>

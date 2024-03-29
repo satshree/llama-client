@@ -7,6 +7,7 @@ import {
   clearAllIntervals,
   loadAuthStateFromLocalStorage,
   removeAuthStateFromLocalStorage,
+  removeCartFromLocalStorage,
   saveAuthStateToLocalStorage,
 } from "@/utils";
 import { AuthStateType } from "@/types";
@@ -77,6 +78,7 @@ const authTokenSlice = createSlice({
       state.user = initialState.user;
 
       removeAuthStateFromLocalStorage();
+      removeCartFromLocalStorage();
       clearAllIntervals();
     },
   },
