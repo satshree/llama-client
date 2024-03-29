@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FiUser, FiShoppingCart } from "react-icons/fi";
+import { FiUser, FiShoppingCart, FiHeart } from "react-icons/fi";
 import { Box, HStack, IconButton } from "@chakra-ui/react";
 
 import style from "./header.module.css";
@@ -26,6 +26,12 @@ function Header() {
       <HStack spacing="1rem">
         <IconButton
           icon={<FiUser />}
+          aria-label={""}
+          variant="ghost"
+          colorScheme="gray"
+        />
+        <IconButton
+          icon={<FiHeart />}
           aria-label={""}
           variant="ghost"
           colorScheme="gray"

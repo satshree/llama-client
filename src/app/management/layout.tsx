@@ -1,15 +1,16 @@
 "use client";
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Grid, GridItem } from "@chakra-ui/react";
 
 import Header from "@/components/management/Header/page";
 import SideNav from "@/components/management/SideNav/page";
 
-import style from "./management.module.css";
 import isAdmin from "../../middlewares/isAdmin";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { fetchBills, fetchUsers } from "@/api";
+
+import style from "./management.module.css";
 
 function RootLayout({
   children,
@@ -25,6 +26,7 @@ function RootLayout({
 
   return (
     <Grid
+      className={style.page}
       templateAreas={`"nav header"
               "nav main"`}
       gridTemplateRows={"80px 1fr"}
@@ -38,7 +40,7 @@ function RootLayout({
         <SideNav />
       </GridItem>
       <GridItem area={"main"}>
-        <div className={style.page}>{children}</div>
+        <div className={style.main}>{children}</div>
       </GridItem>
     </Grid>
   );

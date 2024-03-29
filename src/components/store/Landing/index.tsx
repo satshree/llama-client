@@ -33,14 +33,14 @@ function Landing() {
           <HStack spacing="1rem">
             <Button
               variant="ghost"
-              colorScheme="blue"
+              colorScheme="gray"
               onClick={() => router.push("/browse")}
             >
               Browse our Store
             </Button>
             <Button
               variant="ghost"
-              colorScheme="blue"
+              colorScheme="gray"
               onClick={() => router.push("/login")}
             >
               Login Your Account

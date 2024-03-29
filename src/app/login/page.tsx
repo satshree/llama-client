@@ -9,6 +9,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  HStack,
   Heading,
   Input,
   Text,
@@ -20,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { fetchTokens } from "@/api/auth";
 
 import style from "./login.module.css";
+import { useRouter } from "next/navigation";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -30,6 +32,7 @@ function Login() {
 
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
   const toast = useToast();
   const dispatch = useDispatch();
 
@@ -83,12 +86,12 @@ function Login() {
   };
 
   return (
-    <Center height="100%">
+    <Center height="100%" flexDirection="column">
       <Card>
         <CardBody>
           <Center>
             <Heading as="h4" size="md">
-              Welcome Back to LLAMA
+              Welcome to LLAMA
             </Heading>
           </Center>
           <br />
@@ -134,6 +137,22 @@ function Login() {
           </Center>
         </CardBody>
       </Card>
+      <HStack spacing="1rem" mt="2rem">
+        <Button
+          variant="ghost"
+          colorScheme="gray"
+          onClick={() => router.push("/browse")}
+        >
+          Browse our Store
+        </Button>
+        <Button
+          variant="ghost"
+          colorScheme="gray"
+          onClick={() => router.push("/")}
+        >
+          Home Page
+        </Button>
+      </HStack>
     </Center>
   );
 }

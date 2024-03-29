@@ -346,7 +346,7 @@ function Profile() {
   };
 
   return (
-    <div>
+    <>
       <Center>
         <Heading size="md">Your Details</Heading>
       </Center>
@@ -531,7 +531,7 @@ function Profile() {
           </Button>
         </Center>
       </form>
-    </div>
+    </>
   );
 }
 
