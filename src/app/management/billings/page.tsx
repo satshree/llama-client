@@ -9,6 +9,7 @@ import {
   Heading,
   Input,
   Stat,
+  StatHelpText,
   StatLabel,
   StatNumber,
   Text,
@@ -17,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 
 import { fetchBills } from "@/api/billingManagement";
-import { BillType, GlobalState } from "@/types";
+import { BillType, GlobalState, PaidType } from "@/types";
 import Bill from "@/components/management/Bill/Bill";
 import { roundDecimal } from "@/utils";
 
@@ -80,6 +81,15 @@ function Billings() {
     allBills.filter((bill) =>
       bill.info.customer.phone.toLowerCase().startsWith(filter.toLowerCase())
     );
+
+  const getTotalPaid = (paid: PaidType[]) => {
+    let total = 0;
+    for (let p of paid) {
+      total += p.amount;
+    }
+    return total;
+  };
+
   return (
     <div>
       <Center>
@@ -99,7 +109,7 @@ function Billings() {
                 key={bill.id}
                 borderWidth={0.8}
                 borderRadius={8}
-                w="60%"
+                w="80%"
                 p="1rem"
                 cursor="pointer"
                 onClick={() => setBillDrawer(bill)}
@@ -122,6 +132,13 @@ function Billings() {
                     <Stat>
                       <StatLabel>Total</StatLabel>
                       <StatNumber>${roundDecimal(bill.grand_total)}</StatNumber>
+                      <StatHelpText>
+                        {bill.paid.length > 0 ? (
+                          <>Paid ${getTotalPaid(bill.paid)}</>
+                        ) : (
+                          <>Not Paid</>
+                        )}
+                      </StatHelpText>
                     </Stat>
                   </div>
                 </Flex>

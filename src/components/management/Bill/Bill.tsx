@@ -21,6 +21,7 @@ import {
 
 import { BillType } from "@/types";
 import { roundDecimal } from "@/utils";
+import Receipt from "@/components/common/Bill/Receipt";
 
 interface BillProp {
   open: true | false;
@@ -77,73 +78,7 @@ function Bill(props: BillProp) {
             <Text>Billed date unavailable</Text>
           )}
           <br />
-          <Flex alignItems="center" justifyContent="space-between" w="100%">
-            <div>
-              <Heading size="sm">Customer Details</Heading>
-              <Text>
-                {billData.info.customer.first_name}{" "}
-                {billData.info.customer.last_name}
-              </Text>
-              <Text>
-                {billData.info.customer.email}, {billData.info.customer.phone}
-              </Text>
-            </div>
-            <div>
-              <Heading size="sm">Shipping Details</Heading>
-              <Text>{billData.info.address.street}</Text>
-              <Text>
-                {billData.info.address.city}, {billData.info.address.state}
-              </Text>
-              <Text>
-                {billData.info.address.zip}, {billData.info.address.country}
-              </Text>
-            </div>
-          </Flex>
-          <br />
-          <Table>
-            <Thead>
-              <Tr>
-                <Th w="65%">Title</Th>
-                <Th isNumeric={true}>Unit</Th>
-                <Th isNumeric={true}>Quantity</Th>
-                <Th isNumeric={true}>Total</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {billData.orders.map((order) => (
-                <Tr key={order.id}>
-                  <Td>{order.title}</Td>
-                  <Td>${roundDecimal(order.unit_price)}</Td>
-                  <Td>{order.quantity}</Td>
-                  <Td>${roundDecimal(order.total)}</Td>
-                </Tr>
-              ))}
-              <Tr borderTopWidth={2}>
-                <Td colSpan={3} textAlign="end">
-                  <Text fontWeight={500}>Subtotal</Text>
-                </Td>
-                <Td>${roundDecimal(billData.subtotal)}</Td>
-              </Tr>
-              <Tr>
-                <Td colSpan={3} textAlign="end">
-                  <Text fontWeight={500}>Discount</Text>
-                </Td>
-                <Td>${roundDecimal(billData.discount)}</Td>
-              </Tr>
-              <Tr>
-                <Td colSpan={3} textAlign="end">
-                  <Text fontWeight={500}>Tax</Text>
-                </Td>
-                <Td>${roundDecimal(billData.tax)}</Td>
-              </Tr>
-              <Tr>
-                <Td colSpan={3} textAlign="end">
-                  <Text fontWeight={500}>Grand Total</Text>
-                </Td>
-                <Td>${roundDecimal(billData.grand_total)}</Td>
-              </Tr>
-            </Tbody>
-          </Table>
+          <Receipt bill={billData} />
         </DrawerBody>
       </DrawerContent>
     </Drawer>
