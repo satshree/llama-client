@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  HStack,
   Box,
   Flex,
   Text,
@@ -107,6 +106,9 @@ function ProductModal(props: ProductModalProps) {
         <ModalFooter>
           <Button mr={3} onClick={props.onClose}>
             Close
+          </Button>
+          <Button variant="outline" colorScheme="pink" mr={3}>
+            Add to Wishlist
           </Button>
           <Button variant="outline" colorScheme="blue">
             Add to Cart
