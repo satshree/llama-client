@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button, Center, Flex, HStack, Text } from "@chakra-ui/react";
 
+import style from "./landing.module.css";
+
 import logo from "@/assets/logo_transparent2.png";
 
 function Landing() {
@@ -11,7 +13,13 @@ function Landing() {
 
   return (
     <>
-      <Flex w="100%" h="100%" alignItems="center" justifyContent="center">
+      <Flex
+        className={style.page}
+        w="100%"
+        h="100%"
+        alignItems="center"
+        justifyContent="center"
+      >
         <div>
           <Center>
             <Image src={logo.src} height={440} width={310} alt="logo" />
