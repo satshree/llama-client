@@ -1,0 +1,7 @@
+.box {
+  position: fixed;
+  top: 120px;
+  left: 3.5rem;
+
+  width: 200px;
+}
