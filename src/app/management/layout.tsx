@@ -9,13 +9,7 @@ import style from "./management.module.css";
 import isAdmin from "../../middlewares/isAdmin";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import {
-  fetchBills,
-  fetchProduct,
-  fetchMyDetails,
-  fetchCategories,
-  fetchUsers,
-} from "@/api";
+import { fetchBills, fetchUsers } from "@/api";
 
 function RootLayout({
   children,
@@ -25,10 +19,7 @@ function RootLayout({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMyDetails());
     dispatch(fetchBills());
-    dispatch(fetchProduct());
-    dispatch(fetchCategories());
     dispatch(fetchUsers());
   }, []);
 

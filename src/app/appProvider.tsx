@@ -12,6 +12,7 @@ import {
   saveAuthStateToLocalStorage,
 } from "@/utils";
 import { refreshTokens, setTokens } from "@/api/auth";
+import { fetchProduct, fetchCategories, fetchMyDetails } from "@/api";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
@@ -38,6 +39,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       dispatch(setTokens(localAuth));
     } else {
       clearAllIntervals();
+    }
+
+    // FETCH DATA
+    dispatch(fetchProduct());
+    dispatch(fetchCategories());
+
+    try {
+      dispatch(fetchMyDetails());
+    } catch (error) {
+      //
     }
   }, []);
 
