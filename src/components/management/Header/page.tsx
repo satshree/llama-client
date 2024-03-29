@@ -43,7 +43,9 @@ function Header() {
           {username || "..."}
         </MenuButton>
         <MenuList>
-          <MenuItem>Profile</MenuItem>
+          <MenuItem onClick={() => router.push("/management/profile")}>
+            Profile
+          </MenuItem>
           <MenuItem onClick={logout}>Logout</MenuItem>
         </MenuList>
       </Menu>

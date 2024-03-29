@@ -10,7 +10,6 @@ import {
   Td,
   Text,
   Box,
-  Icon,
   HStack,
   Stat,
   StatNumber,

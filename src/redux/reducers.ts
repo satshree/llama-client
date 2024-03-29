@@ -5,6 +5,7 @@ import productsReducer from "@/api/products";
 import categoryReducer from "@/api/category";
 import billManagementReducer from "@/api/billingManagement";
 import userManagementReducer from "@/api/userManagement";
+import myDetailReducer from "@/api/myDetails";
 
 export default combineReducers({
   auth: authReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   categories: categoryReducer,
   bills: billManagementReducer,
   userManagement: userManagementReducer,
+  user: myDetailReducer,
 });

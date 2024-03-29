@@ -33,7 +33,9 @@ export interface AuthStateType {
 
 export interface GlobalState {
   auth: AuthStateType;
-  user: UserType;
+  user: {
+    user: UserType;
+  };
   userManagement: {
     users: UserType[];
   };
