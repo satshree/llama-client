@@ -16,9 +16,11 @@ function Landing() {
           <Center>
             <Image src={logo.src} height={440} width={310} alt="logo" />
           </Center>
+          <br />
           <Center>
-            <Text fontSize="larger">Style your Lifestyle</Text>
+            <Text fontSize="larger">Add a touch of Zen to your Lifestyle</Text>
           </Center>
+          <br />
           <br />
           <HStack spacing="1rem">
             <Button
