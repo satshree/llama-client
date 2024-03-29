@@ -6,21 +6,10 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   DrawerBody,
-  DrawerFooter,
-  Button,
-  Flex,
-  Heading,
   Text,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
 } from "@chakra-ui/react";
 
 import { BillType } from "@/types";
-import { roundDecimal } from "@/utils";
 import Receipt from "@/components/common/Bill/Receipt";
 
 interface BillProp {
