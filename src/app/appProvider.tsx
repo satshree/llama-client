@@ -23,6 +23,30 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    const fetchDetailData = async () => {
+      try {
+        await dispatch(fetchMyDetails());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchCategoryData = async () => {
+      try {
+        await dispatch(fetchCategories());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchProductData = async () => {
+      try {
+        await dispatch(fetchProduct());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     if (auth.token.access) {
       saveAuthStateToLocalStorage(auth);
     }
@@ -42,14 +66,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
 
     // FETCH DATA
-    dispatch(fetchProduct());
-    dispatch(fetchCategories());
-
-    try {
-      dispatch(fetchMyDetails());
-    } catch (error) {
-      //
-    }
+    fetchDetailData();
+    fetchCategoryData();
+    fetchProductData();
   }, []);
 
   return <ChakraProvider>{children}</ChakraProvider>;
