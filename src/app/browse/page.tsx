@@ -7,11 +7,13 @@ import {
   ButtonGroup,
   Card,
   CardBody,
+  Center,
   Flex,
   IconButton,
   Input,
   SimpleGrid,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { TbShoppingCartPlus } from "react-icons/tb";
 
@@ -29,6 +31,8 @@ import Cart from "@/components/store/Cart";
 import { fetchCart } from "@/api/cart";
 import { API_ROOT } from "@/utils";
 
+import search from "@/assets/img/search.svg";
+
 const dummyData: ProductType = {
   id: "",
   name: "",
@@ -43,10 +47,12 @@ const dummyData: ProductType = {
 };
 
 function Browse() {
+  const toast = useToast();
   const dispatch = useDispatch();
 
   const { products } = useSelector((state: GlobalState) => state.products);
   const { categories } = useSelector((state: GlobalState) => state.categories);
+  const { cart } = useSelector((state: GlobalState) => state.cart);
 
   const [filterSearch, setFilterSearch] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
@@ -71,6 +77,8 @@ function Browse() {
           product.name.toLowerCase().includes(filterSearch.toLowerCase())
         );
 
+  const getProducts = () => filterProductsBySearch();
+
   const getCategoryNameTitle = () => {
     for (let category of categories) {
       if (category.id === filterCategory) return category.name;
@@ -79,12 +87,55 @@ function Browse() {
     return "All";
   };
 
-  const getProducts = () => filterProductsBySearch();
+  const getProductName = (id: string) => {
+    for (let p of allProducts) {
+      if (p.id === id) return p.name;
+    }
 
-  const addToCart = () => {
-    fetch(API_ROOT + "/api/website/cart/");
+    return "";
   };
-  const addToCartFromModal = () => {};
+
+  const addToCart = (id: string, notify: boolean = true) => {
+    fetch(API_ROOT + `/api/website/cart/${cart.id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ product_id: id, quantity: 1 }),
+    })
+      .then(async (resp) => {
+        const response = await resp.json();
+        if (resp.status !== 200) {
+          console.log(resp);
+          console.log(response);
+          toast({
+            title: "Something went wrong",
+            status: "warning",
+            isClosable: true,
+            position: "top-right",
+          });
+        } else {
+          if (notify)
+            toast({
+              title: `${getProductName(id)} Added to Cart`,
+              status: "info",
+              variant: "left-accent",
+              isClosable: true,
+              position: "top-right",
+            });
+          dispatch(fetchCart());
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast({
+          title: "Something went wrong",
+          status: "error",
+          isClosable: true,
+          position: "top-right",
+        });
+      });
+  };
 
   return (
     <>
@@ -107,9 +158,9 @@ function Browse() {
             />
           </Flex>
           <br />
-          <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="2rem">
-            {getProducts().length > 0 ? (
-              getProducts().map((product) => (
+          {getProducts().length > 0 ? (
+            <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="2rem">
+              {getProducts().map((product) => (
                 <Card key={product.id} className={style.card} borderRadius={8}>
                   <Image
                     className={style["product-image"]}
@@ -149,26 +200,43 @@ function Browse() {
                           icon={<TbShoppingCartPlus />}
                           aria-label={""}
                           colorScheme="gray"
+                          onClick={() => addToCart(product.id)}
                         />
                       </ButtonGroup>
                     </Flex>
                   </CardBody>
                 </Card>
-              ))
-            ) : (
-              <></>
-            )}
-          </SimpleGrid>
+              ))}
+            </SimpleGrid>
+          ) : (
+            <>
+              <br />
+              <Center>
+                <Image
+                  src={search.src}
+                  alt="Keep searching"
+                  width={400}
+                  height={400}
+                />
+              </Center>
+              <br />
+              <Center>
+                <Text fontWeight={600} fontSize="larger">
+                  Keep searching ...
+                </Text>
+              </Center>
+            </>
+          )}
         </div>
       </div>
 
       <ProductModal
         open={productModal.id !== ""}
         data={productModal}
-        addToCart={addToCartFromModal}
+        addToCart={addToCart}
         onClose={() => setProductModal(dummyData)}
       />
-      <Cart />
+      <Cart addToCart={addToCart} />
     </>
   );
 }

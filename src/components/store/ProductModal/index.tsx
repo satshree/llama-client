@@ -27,7 +27,7 @@ interface ProductModalProps {
   open: true | false;
   data: ProductType;
   onClose: () => void;
-  addToCart: () => void;
+  addToCart: (id: string) => void;
   reset?: () => void;
 }
 
@@ -115,7 +115,11 @@ function ProductModal(props: ProductModalProps) {
               <Button variant="outline" colorScheme="pink" mr={3}>
                 Add to Wishlist
               </Button>
-              <Button variant="outline" colorScheme="blue">
+              <Button
+                variant="outline"
+                colorScheme="blue"
+                onClick={() => props.addToCart(product.id)}
+              >
                 Add to Cart
               </Button>
             </div>
