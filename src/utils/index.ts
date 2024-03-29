@@ -30,20 +30,16 @@ export function parseAddress(address: string): AddressType {
   return {
     street: addressSplit[0]?.includes("undefined")
       ? ""
-      : addressSplit[0]?.replace(" ", ""),
-    city: addressSplit[1]?.includes("undefined")
-      ? ""
-      : addressSplit[1]?.replace(" ", ""),
+      : addressSplit[0]?.trim(),
+    city: addressSplit[1]?.includes("undefined") ? "" : addressSplit[1]?.trim(),
     state: addressSplit[2]?.includes("undefined")
       ? ""
-      : addressSplit[2]?.replace(" ", ""),
-    zip: addressSplit[3]?.includes("undefined")
-      ? ""
-      : addressSplit[3]?.replace(" ", ""),
+      : addressSplit[2]?.trim(),
+    zip: addressSplit[3]?.includes("undefined") ? "" : addressSplit[3]?.trim(),
     country:
       addressSplit[4]?.includes("undefined") || addressSplit[4] === undefined
         ? ""
-        : addressSplit[4]?.replace(" ", ""),
+        : addressSplit[4]?.trim(),
   };
 }
 

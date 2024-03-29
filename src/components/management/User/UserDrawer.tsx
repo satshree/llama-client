@@ -110,6 +110,9 @@ function UserDrawer(props: UserDrawerProps) {
     setPassword("");
     setPasswordError("");
 
+    setConfirmPassword("");
+    setConfirmPasswordError("");
+
     const addressParsed = parseAddress(props.data.address || "");
 
     setAddress(addressParsed.street || "");
@@ -150,6 +153,9 @@ function UserDrawer(props: UserDrawerProps) {
 
     setPassword("");
     setPasswordError("");
+
+    setConfirmPassword("");
+    setConfirmPasswordError("");
 
     setAddress("");
     setAddressError("");
@@ -197,10 +203,12 @@ function UserDrawer(props: UserDrawerProps) {
   const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setPasswordError("");
+    setConfirmPasswordError("");
   };
 
   const onConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
+    setPasswordError("");
     setConfirmPasswordError("");
   };
 
@@ -308,12 +316,23 @@ function UserDrawer(props: UserDrawerProps) {
         data = {
           ...data,
           password,
-          address: `${address}, ${city}, ${addressState}, ${zip}, ${country}`,
           is_super: isSuper || false,
         };
         message = "User added successfully";
       }
     } else {
+      if (password !== "") {
+        if (password !== confirmPassword) {
+          setPasswordError("Passwords do not match");
+          setConfirmPasswordError("Passwords do not match");
+          proceed = false;
+        } else {
+          data = {
+            ...data,
+            password,
+          };
+        }
+      }
       apiRoot = API_ROOT + `/api/management/user/${props.data.id}/`;
       message = "User updated successfully";
     }
@@ -330,10 +349,10 @@ function UserDrawer(props: UserDrawerProps) {
         body: JSON.stringify(data),
       })
         .then(async (resp) => {
-          const response = await resp.json();
+          // const response = await resp.json();
           if (resp.status !== 200) {
             console.log(resp);
-            console.log(response);
+            // console.log(response);
             toast({
               title: "Something went wrong",
               status: "warning",
@@ -558,43 +577,41 @@ function UserDrawer(props: UserDrawerProps) {
                 </FormControl>
               </GridItem>
             </Grid>
+            <br />
+            <Divider />
+            <br />
+            <Grid templateColumns="repeat(12, 1fr)" gap="0.5rem">
+              <GridItem colSpan={6}>
+                <FormControl isInvalid={passwordError !== ""}>
+                  <FormLabel>Password</FormLabel>
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={onPasswordChange}
+                  />
+                  {passwordError ? (
+                    <FormErrorMessage>{passwordError}</FormErrorMessage>
+                  ) : null}
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={6}>
+                <FormControl isInvalid={confirmPasswordError !== ""}>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <Input
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={onConfirmPasswordChange}
+                  />
+                  {confirmPasswordError ? (
+                    <FormErrorMessage>{confirmPasswordError}</FormErrorMessage>
+                  ) : null}
+                </FormControl>
+              </GridItem>
+            </Grid>
             {props.mode === "add" ? (
               <>
-                <br />
-                <Divider />
-                <br />
-                <Grid templateColumns="repeat(12, 1fr)" gap="0.5rem">
-                  <GridItem colSpan={6}>
-                    <FormControl isInvalid={passwordError !== ""}>
-                      <FormLabel>Password</FormLabel>
-                      <Input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={onPasswordChange}
-                      />
-                      {passwordError ? (
-                        <FormErrorMessage>{passwordError}</FormErrorMessage>
-                      ) : null}
-                    </FormControl>
-                  </GridItem>
-                  <GridItem colSpan={6}>
-                    <FormControl isInvalid={confirmPasswordError !== ""}>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <Input
-                        type="password"
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChange={onConfirmPasswordChange}
-                      />
-                      {confirmPasswordError ? (
-                        <FormErrorMessage>
-                          {confirmPasswordError}
-                        </FormErrorMessage>
-                      ) : null}
-                    </FormControl>
-                  </GridItem>
-                </Grid>
                 <br />
                 <FormControl display="flex" alignItems="center">
                   <FormLabel htmlFor="superuser" mb="0">
