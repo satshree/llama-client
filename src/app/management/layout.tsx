@@ -7,12 +7,31 @@ import SideNav from "@/components/management/SideNav/page";
 
 import style from "./management.module.css";
 import isAdmin from "../../middlewares/isAdmin";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import {
+  fetchBills,
+  fetchProduct,
+  fetchMyDetails,
+  fetchCategories,
+  fetchUsers,
+} from "@/api";
 
 function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMyDetails());
+    dispatch(fetchBills());
+    dispatch(fetchProduct());
+    dispatch(fetchCategories());
+    dispatch(fetchUsers());
+  }, []);
+
   return (
     <Grid
       templateAreas={`"nav header"
