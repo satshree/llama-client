@@ -60,7 +60,7 @@ function Users() {
           description: "Unable to fetch users",
           status: "warning",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       }
     };

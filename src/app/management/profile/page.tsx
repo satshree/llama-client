@@ -257,14 +257,14 @@ function Profile() {
               title: "Something went wrong",
               status: "warning",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           } else {
             toast({
               title: "Details updated successfully",
               status: "success",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           }
         })
@@ -274,7 +274,7 @@ function Profile() {
             title: "Something went wrong",
             status: "error",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         })
         .finally(() => setLoading(false));
@@ -321,14 +321,14 @@ function Profile() {
               title: "Something went wrong",
               status: "warning",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           } else {
             toast({
               title: "Password updated successfully",
               status: "success",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           }
         })
@@ -338,7 +338,7 @@ function Profile() {
             title: "Something went wrong",
             status: "error",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         })
         .finally(() => setPasswordLoading(false));

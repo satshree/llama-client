@@ -357,14 +357,14 @@ function UserDrawer(props: UserDrawerProps) {
               title: "Something went wrong",
               status: "warning",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           } else {
             toast({
               title: message,
               status: "success",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
             props.onClose();
           }
@@ -375,7 +375,7 @@ function UserDrawer(props: UserDrawerProps) {
             title: "Something went wrong",
             status: "error",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         })
         .finally(() => setLoading(false));
@@ -401,14 +401,14 @@ function UserDrawer(props: UserDrawerProps) {
             title: "Something went wrong",
             status: "warning",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         } else {
           toast({
             title: "User deleted successfully",
             status: "success",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
 
           props.onClose();
@@ -420,7 +420,7 @@ function UserDrawer(props: UserDrawerProps) {
           title: "Something went wrong",
           status: "error",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       })
       .finally(() => setLoading(false));

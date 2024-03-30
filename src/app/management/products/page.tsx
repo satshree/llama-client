@@ -78,7 +78,7 @@ function Products() {
           description: "Unable to fetch products",
           status: "warning",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       }
     };
@@ -95,7 +95,7 @@ function Products() {
           description: "Unable to fetch product categories",
           status: "warning",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       }
     };
@@ -136,14 +136,14 @@ function Products() {
             title: "Something went wrong",
             status: "warning",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         } else {
           toast({
             title: "Product deleted",
             status: "success",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
 
           dispatch(fetchProduct());
@@ -155,7 +155,7 @@ function Products() {
           title: "Something went wrong",
           status: "error",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       })
       .finally(() => setDeleteID(""));

@@ -54,7 +54,7 @@ function Management() {
             description: "Unable to fetch analytics",
             status: "warning",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         } else {
           setAnalytics(response);
@@ -67,7 +67,7 @@ function Management() {
           description: "Unable to fetch analytics",
           status: "error",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       });
   };

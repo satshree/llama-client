@@ -149,7 +149,7 @@ function AddProduct(props: AddProductType) {
               title: "Something went wrong",
               status: "warning",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           } else {
             dispatch(fetchProduct());
@@ -157,7 +157,7 @@ function AddProduct(props: AddProductType) {
               title: "Product added successfully",
               status: "success",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
             props.onClose();
           }
@@ -168,7 +168,7 @@ function AddProduct(props: AddProductType) {
             title: "Something went wrong",
             status: "error",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         })
         .finally(() => {

@@ -142,14 +142,14 @@ function EditProduct(props: EditProductProps) {
               title: "Unable to upload image",
               status: "warning",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           } else {
             toast({
               title: "Image uploaded successfully",
               status: "success",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
             setImages([...images, response.uploadedImages[0]]);
           }
@@ -174,14 +174,14 @@ function EditProduct(props: EditProductProps) {
             title: "Something went wrong",
             status: "warning",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         } else {
           toast({
             title: "Image deleted successfully",
             status: "success",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
 
           setImages(images.filter((img) => img.id !== deleteImageID));
@@ -193,7 +193,7 @@ function EditProduct(props: EditProductProps) {
           title: "Something went wrong",
           status: "error",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       })
       .finally(() => setDeleteImageID(""));
@@ -244,14 +244,14 @@ function EditProduct(props: EditProductProps) {
               title: "Something went wrong",
               status: "warning",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           } else {
             toast({
               title: "Product updated successfully",
               status: "success",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
             props.onClose();
           }
@@ -262,7 +262,7 @@ function EditProduct(props: EditProductProps) {
             title: "Something went wrong",
             status: "error",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         })
         .finally(() => {

@@ -75,14 +75,14 @@ function ProductCategory(props: ProductCategoryProps) {
             title: "Something went wrong",
             status: "warning",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         } else {
           toast({
             title: "New category added successfully",
             status: "success",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
           props.fetch();
         }
@@ -93,7 +93,7 @@ function ProductCategory(props: ProductCategoryProps) {
           title: "Something went wrong",
           status: "error",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       })
       .finally(() => setLoading(false));
@@ -114,14 +114,14 @@ function ProductCategory(props: ProductCategoryProps) {
             title: "Something went wrong",
             status: "warning",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         } else {
           toast({
             title: "Category deleted successfully",
             status: "success",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
           props.fetch();
         }
@@ -132,7 +132,7 @@ function ProductCategory(props: ProductCategoryProps) {
           title: "Something went wrong",
           status: "error",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       })
       .finally(() => setDeleteCategoryID(""));

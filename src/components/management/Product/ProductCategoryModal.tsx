@@ -77,14 +77,14 @@ function ProductCategoryModal(props: ModalProps) {
               title: "Something went wrong",
               status: "warning",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           } else {
             toast({
               title: "Category updated successfully",
               status: "success",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
             props.fetch();
           }
@@ -95,7 +95,7 @@ function ProductCategoryModal(props: ModalProps) {
             title: "Something went wrong",
             status: "error",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         })
         .finally(() => {

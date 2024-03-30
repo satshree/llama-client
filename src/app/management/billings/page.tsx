@@ -69,7 +69,7 @@ function Billings() {
           description: "Unable to fetch bills",
           status: "warning",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       }
     };
