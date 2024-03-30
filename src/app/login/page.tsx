@@ -22,6 +22,7 @@ import { fetchTokens } from "@/api/auth";
 
 import style from "./login.module.css";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -133,7 +134,19 @@ function Login() {
           </form>
           <br />
           <Center>
-            <Text fontSize="sm">Not a user? Sign Up</Text>
+            <Text fontSize="sm">
+              Not a user?
+              <Link
+                href="/signup"
+                style={{
+                  color: "#3182ce",
+                  fontWeight: 600,
+                  marginLeft: "0.5rem",
+                }}
+              >
+                Sign Up
+              </Link>
+            </Text>
           </Center>
         </CardBody>
       </Card>
