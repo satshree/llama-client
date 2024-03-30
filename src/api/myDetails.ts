@@ -1,6 +1,10 @@
 import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { API_ROOT, loadAuthStateFromLocalStorage } from "@/utils";
+import {
+  API_ROOT,
+  loadAuthStateFromLocalStorage,
+  removeAuthStateFromLocalStorage,
+} from "@/utils";
 import { UserType } from "@/types";
 
 interface UserState {
@@ -44,6 +48,8 @@ export const fetchMyDetails = () => async (dispatch: Dispatch) => {
 
   if (response.status !== 200) {
     console.dir(response);
+    removeAuthStateFromLocalStorage();
+    dispatch(setUser(initialState.user));
     throw new Error("Something went wrong");
   } else {
     const userData = await response.json();
