@@ -19,12 +19,18 @@ import {
   Flex,
   IconButton,
   useToast,
+  Divider,
+  Stat,
+  StatNumber,
+  StatLabel,
 } from "@chakra-ui/react";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 
 import { CartItemsType, GlobalState } from "@/types";
 import { fetchCart, toggleCart } from "@/api/cart";
-import { API_ROOT } from "@/utils";
+import { API_ROOT, roundDecimal } from "@/utils";
+
+import style from "./cart.module.css";
 
 interface CartProps {
   addToCart: (id: string, notify: boolean) => void;
@@ -58,7 +64,10 @@ function Cart(props: CartProps) {
       }
     });
 
-  const closeCart = () => dispatch(toggleCart(false));
+  const closeCart = () => {
+    dispatch(toggleCart(false));
+    dispatch(fetchCart());
+  };
 
   return (
     <>
@@ -69,67 +78,82 @@ function Cart(props: CartProps) {
           <DrawerHeader>Your Cart</DrawerHeader>
 
           <DrawerBody>
-            {cartItems.length > 0 ? (
-              <VStack spacing="0.5rem">
-                {cartItems.map((item) => (
-                  <Box
-                    key={item.id}
-                    borderWidth={0.8}
-                    borderRadius={8}
-                    p="1rem"
-                    w="100%"
-                  >
-                    <Flex
+            <div className={style["cart-item-box"]}>
+              {cartItems.length > 0 ? (
+                <VStack spacing="0.5rem">
+                  {cartItems.map((item) => (
+                    <Box
+                      key={item.id}
+                      borderWidth={0.8}
+                      borderRadius={8}
+                      p="1rem"
                       w="100%"
-                      alignItems="center"
-                      justifyContent="space-between"
                     >
-                      <Flex alignItems="center">
-                        {item.product.images.length > 0 ? (
-                          <Image
-                            src={item.product.images[0].image}
-                            alt="img"
-                            width={100}
-                            height={100}
-                            style={{ borderRadius: "8px", marginRight: "1rem" }}
+                      <Flex
+                        w="100%"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Flex alignItems="center">
+                          {item.product.images.length > 0 ? (
+                            <Image
+                              src={item.product.images[0].image}
+                              alt="img"
+                              width={100}
+                              height={100}
+                              style={{
+                                borderRadius: "8px",
+                                marginRight: "1rem",
+                              }}
+                            />
+                          ) : null}
+                          <Text>{item.product.name}</Text>
+                        </Flex>
+                        <Flex alignItems="center">
+                          <Text>${roundDecimal(item.total)}</Text>
+                          <IconButton
+                            variant="ghost"
+                            icon={<FiMinusCircle />}
+                            colorScheme="red"
+                            size="sm"
+                            aria-label={""}
+                            onClick={() => removeFromCart(item.id)}
                           />
-                        ) : null}
-                        <Text>{item.product.name}</Text>
+                          <Text mr="0.5rem" ml="0.5rem" fontSize="large">
+                            {item.quantity}
+                          </Text>
+                          <IconButton
+                            variant="ghost"
+                            icon={<FiPlusCircle />}
+                            colorScheme="blue"
+                            size="sm"
+                            onClick={() =>
+                              props.addToCart(item.product.id, false)
+                            }
+                            aria-label={""}
+                          />
+                        </Flex>
                       </Flex>
-                      <Flex alignItems="center">
-                        <IconButton
-                          variant="ghost"
-                          icon={<FiMinusCircle />}
-                          colorScheme="red"
-                          size="sm"
-                          aria-label={""}
-                          onClick={() => removeFromCart(item.id)}
-                        />
-                        <Text mr="0.5rem" ml="0.5rem" fontSize="large">
-                          {item.quantity}
-                        </Text>
-                        <IconButton
-                          variant="ghost"
-                          icon={<FiPlusCircle />}
-                          colorScheme="blue"
-                          size="sm"
-                          onClick={() =>
-                            props.addToCart(item.product.id, false)
-                          }
-                          aria-label={""}
-                        />
-                      </Flex>
-                    </Flex>
-                  </Box>
-                ))}
-              </VStack>
-            ) : (
-              <>
-                <Center>
-                  <Text fontSize="larger">Add Products to Cart</Text>
-                </Center>
-              </>
-            )}
+                    </Box>
+                  ))}
+                </VStack>
+              ) : (
+                <>
+                  <Center>
+                    <Text fontSize="larger">Add Products to Cart</Text>
+                  </Center>
+                </>
+              )}
+            </div>
+            <br />
+            <Divider />
+            <br />
+            <div>
+              <Stat style={{ float: "right" }}>
+                <StatLabel>Total</StatLabel>
+                <StatNumber>${roundDecimal(cart.total)}</StatNumber>
+              </Stat>
+            </div>
           </DrawerBody>
 
           <DrawerFooter>
