@@ -23,6 +23,7 @@ import {
   Stat,
   StatNumber,
   StatLabel,
+  StatHelpText,
 } from "@chakra-ui/react";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 
@@ -31,6 +32,7 @@ import { fetchCart, toggleCart } from "@/api/cart";
 import { API_ROOT, roundDecimal } from "@/utils";
 
 import style from "./cart.module.css";
+import Checkout from "../Checkout";
 
 interface CartProps {
   addToCart: (id: string, notify: boolean) => void;
@@ -44,6 +46,7 @@ function Cart(props: CartProps) {
   const { cart } = useSelector((state: GlobalState) => state.cart);
 
   const [cartItems, setCartItems] = useState<CartItemsType[]>([]);
+  const [checkoutModal, toggleCheckoutModal] = useState(false);
 
   useEffect(() => setCartItems(cart.items), [cart]);
 
@@ -57,7 +60,7 @@ function Cart(props: CartProps) {
           title: "Something went wrong",
           status: "warning",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       } else {
         dispatch(fetchCart());
@@ -152,6 +155,11 @@ function Cart(props: CartProps) {
               <Stat style={{ float: "right" }}>
                 <StatLabel>Total</StatLabel>
                 <StatNumber>${roundDecimal(cart.total)}</StatNumber>
+                {/* <StatHelpText>Before Tax</StatHelpText> */}
+                <StatLabel>Grand Total</StatLabel>
+                <StatNumber>
+                  ${roundDecimal(cart.total + (cart.total / 100) * 6.25)}
+                </StatNumber>
               </Stat>
             </div>
           </DrawerBody>
@@ -160,10 +168,24 @@ function Cart(props: CartProps) {
             <Button variant="outline" mr={3} onClick={closeCart}>
               Cancel
             </Button>
-            <Button colorScheme="green">Checkout</Button>
+            <Button
+              colorScheme="green"
+              isDisabled={cart.total === 0}
+              isLoading={checkoutModal}
+              onClick={() => toggleCheckoutModal(true)}
+            >
+              Checkout
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+
+      <Checkout
+        open={checkoutModal}
+        onClose={() => {
+          toggleCheckoutModal(false);
+        }}
+      />
     </>
   );
 }

@@ -112,7 +112,7 @@ function Browse() {
             title: "Something went wrong",
             status: "warning",
             isClosable: true,
-            position: "top-right",
+            position: "bottom-left",
           });
         } else {
           if (notify)
@@ -121,7 +121,7 @@ function Browse() {
               status: "info",
               variant: "left-accent",
               isClosable: true,
-              position: "top-right",
+              position: "bottom-left",
             });
           dispatch(fetchCart());
         }
@@ -132,7 +132,7 @@ function Browse() {
           title: "Something went wrong",
           status: "error",
           isClosable: true,
-          position: "top-right",
+          position: "bottom-left",
         });
       });
   };
@@ -214,7 +214,7 @@ function Browse() {
               <Center>
                 <Image
                   src={search.src}
-                  alt="Keep searching"
+                  alt="Keep looking"
                   width={400}
                   height={400}
                 />
@@ -222,7 +222,7 @@ function Browse() {
               <br />
               <Center>
                 <Text fontWeight={600} fontSize="larger">
-                  Keep searching ...
+                  Keep looking ...
                 </Text>
               </Center>
             </>

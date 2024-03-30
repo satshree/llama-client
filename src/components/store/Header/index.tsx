@@ -2,16 +2,17 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { FiUser, FiShoppingCart, FiHeart } from "react-icons/fi";
 import { Box, HStack, IconButton } from "@chakra-ui/react";
+
+import { toggleCart } from "@/api/cart";
+import { GlobalState } from "@/types";
 
 import style from "./header.module.css";
 
 import logo from "../../../assets/logo_only.png";
 import title from "../../../assets/title_only.png";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleCart } from "@/api/cart";
-import { GlobalState } from "@/types";
 
 function Header() {
   const router = useRouter();
