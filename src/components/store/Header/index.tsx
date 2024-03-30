@@ -17,7 +17,17 @@ function Header() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const cartOpen = useSelector((state: GlobalState) => state.cart.open);
+  const { cart, open } = useSelector((state: GlobalState) => state.cart);
+
+  const getTotalCartItems = () => {
+    let total = 0;
+
+    for (let c of cart.items) {
+      total += c.quantity;
+    }
+
+    return total;
+  };
 
   return (
     <div className={style.header}>
@@ -42,13 +52,18 @@ function Header() {
           variant="ghost"
           colorScheme="gray"
         />
-        <IconButton
-          icon={<FiShoppingCart />}
-          aria-label={""}
-          variant="ghost"
-          colorScheme="gray"
-          onClick={() => dispatch(toggleCart(!cartOpen))}
-        />
+        <div>
+          <IconButton
+            icon={<FiShoppingCart />}
+            aria-label={""}
+            variant="ghost"
+            colorScheme="gray"
+            onClick={() => dispatch(toggleCart(!open))}
+          />
+          {cart.items.length > 0 ? (
+            <div className={style.badge}>{getTotalCartItems()}</div>
+          ) : null}
+        </div>
       </HStack>
     </div>
   );
