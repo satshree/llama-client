@@ -25,8 +25,8 @@ function QueryBox(props: QueryBoxProps) {
   return (
     <div className={style.box}>
       <Text fontWeight={600}>Categories</Text>
-      <Divider mt="0.5rem" mb="0.5rem" />
-      <VStack spacing="0.5rem">
+      <Divider mt="1rem" mb="1rem" />
+      <VStack spacing="1rem">
         {allCategories.map((category) => (
           <Button
             w="100%"
@@ -46,6 +46,7 @@ function QueryBox(props: QueryBoxProps) {
           colorScheme="red"
           size="sm"
           onClick={() => props.setFilterCategory("")}
+          isDisabled={currentFilter === ""}
         >
           Remove filter
         </Button>
