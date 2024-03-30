@@ -13,8 +13,10 @@ function Landing() {
 
   return (
     <>
+      <div className="overlay" />
+      <div className="background" />
       <Flex
-        className={style.page}
+        className={`app ${style.page}`}
         w="100%"
         h="100%"
         alignItems="center"

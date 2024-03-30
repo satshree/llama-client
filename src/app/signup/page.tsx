@@ -243,7 +243,9 @@ function SignUp() {
 
   return (
     <>
-      <Center height="100%" flexDirection="column">
+      <div className="overlay" />
+      <div className="background" />
+      <Center className="app" height="100%" flexDirection="column">
         <Card>
           <CardBody>
             <Center>

@@ -23,11 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <StoreProvider>
-          <AppProvider>
-            <div className="overlay" />
-            <div className="background" />
-            <div className="app">{children}</div>
-          </AppProvider>
+          <AppProvider>{children}</AppProvider>
         </StoreProvider>
       </body>
     </html>

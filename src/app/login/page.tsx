@@ -87,86 +87,90 @@ function Login() {
   };
 
   return (
-    <Center height="100%" flexDirection="column">
-      <Card>
-        <CardBody>
-          <Center>
-            <Heading as="h4" size="md">
-              Welcome to LLAMA
-            </Heading>
-          </Center>
-          <br />
-          <form className={style.form} onSubmit={onSubmit}>
-            <FormControl isInvalid={usernameError !== ""}>
-              <FormLabel>Username</FormLabel>
-              <Input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={updateUsername}
-              />
-              {usernameError ? (
-                <FormErrorMessage>{usernameError}</FormErrorMessage>
-              ) : null}
-            </FormControl>
+    <>
+      <div className="overlay" />
+      <div className="background" />
+      <Center className="app" height="100%" flexDirection="column">
+        <Card>
+          <CardBody>
+            <Center>
+              <Heading as="h4" size="md">
+                Welcome to LLAMA
+              </Heading>
+            </Center>
             <br />
-            <FormControl isInvalid={passwordError !== ""}>
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={updatePassword}
-              />
-              {passwordError ? (
-                <FormErrorMessage>{passwordError}</FormErrorMessage>
-              ) : null}
-            </FormControl>
-            <br />
-            <Button
-              colorScheme="blue"
-              width="100%"
-              type="submit"
-              isLoading={loading}
-            >
-              Login
-            </Button>
-          </form>
-          <br />
-          <Center>
-            <Text fontSize="sm">
-              Not a user?
-              <Link
-                href="/signup"
-                style={{
-                  color: "#3182ce",
-                  fontWeight: 600,
-                  marginLeft: "0.5rem",
-                }}
+            <form className={style.form} onSubmit={onSubmit}>
+              <FormControl isInvalid={usernameError !== ""}>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={updateUsername}
+                />
+                {usernameError ? (
+                  <FormErrorMessage>{usernameError}</FormErrorMessage>
+                ) : null}
+              </FormControl>
+              <br />
+              <FormControl isInvalid={passwordError !== ""}>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={updatePassword}
+                />
+                {passwordError ? (
+                  <FormErrorMessage>{passwordError}</FormErrorMessage>
+                ) : null}
+              </FormControl>
+              <br />
+              <Button
+                colorScheme="blue"
+                width="100%"
+                type="submit"
+                isLoading={loading}
               >
-                Sign Up
-              </Link>
-            </Text>
-          </Center>
-        </CardBody>
-      </Card>
-      <HStack spacing="1rem" mt="2rem">
-        <Button
-          variant="ghost"
-          colorScheme="gray"
-          onClick={() => router.push("/browse")}
-        >
-          Browse our Store
-        </Button>
-        <Button
-          variant="ghost"
-          colorScheme="gray"
-          onClick={() => router.push("/")}
-        >
-          Home Page
-        </Button>
-      </HStack>
-    </Center>
+                Login
+              </Button>
+            </form>
+            <br />
+            <Center>
+              <Text fontSize="sm">
+                Not a user?
+                <Link
+                  href="/signup"
+                  style={{
+                    color: "#3182ce",
+                    fontWeight: 600,
+                    marginLeft: "0.5rem",
+                  }}
+                >
+                  Sign Up
+                </Link>
+              </Text>
+            </Center>
+          </CardBody>
+        </Card>
+        <HStack spacing="1rem" mt="2rem">
+          <Button
+            variant="ghost"
+            colorScheme="gray"
+            onClick={() => router.push("/browse")}
+          >
+            Browse our Store
+          </Button>
+          <Button
+            variant="ghost"
+            colorScheme="gray"
+            onClick={() => router.push("/")}
+          >
+            Home Page
+          </Button>
+        </HStack>
+      </Center>
+    </>
   );
 }
 
