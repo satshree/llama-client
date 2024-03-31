@@ -183,7 +183,11 @@ function Browse() {
           </Flex>
           <br />
           {getProducts().length > 0 ? (
-            <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} spacing="2rem">
+            <SimpleGrid
+              columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+              spacing="2rem"
+              mb="1rem"
+            >
               {getProducts().map((product) => (
                 <Card key={product.id} className={style.card} borderRadius={8}>
                   <Image
