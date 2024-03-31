@@ -13,6 +13,7 @@ import {
 } from "@/utils";
 import { refreshTokens, setTokens } from "@/api/auth";
 import { fetchProduct, fetchCategories, fetchMyDetails } from "@/api";
+import { fetchWishlists } from "@/api/wishlist";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
@@ -47,6 +48,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
+    const fetchWishlistData = async () => {
+      try {
+        await dispatch(fetchWishlists());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     if (auth.token.access) {
       saveAuthStateToLocalStorage(auth);
     }
@@ -69,6 +78,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     fetchDetailData();
     fetchCategoryData();
     fetchProductData();
+    fetchWishlistData();
   }, []);
 
   return <ChakraProvider>{children}</ChakraProvider>;

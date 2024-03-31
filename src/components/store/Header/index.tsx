@@ -24,6 +24,7 @@ import title from "../../../assets/title_only.png";
 import { endSession, setUser } from "@/api";
 import { setBills } from "@/api/billing";
 import { removeCartFromLocalStorage } from "@/utils";
+import { toggleWishlist } from "@/api/wishlist";
 
 function Header() {
   const toast = useToast();
@@ -127,6 +128,7 @@ function Header() {
                 colorScheme="gray"
                 onClick={() => {
                   if (user.id) {
+                    dispatch(toggleWishlist(true));
                   } else {
                     toast({
                       title:

@@ -16,14 +16,14 @@ import {
   StatNumber,
   useToast,
 } from "@chakra-ui/react";
-
+import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
 import { GlobalState, ProductType } from "@/types";
 
 import style from "./product.module.css";
-import { useSelector } from "react-redux";
+import { addToWishlist } from "@/api/wishlist";
 
 interface ProductModalProps {
   open: true | false;
@@ -48,6 +48,7 @@ const dummyData: ProductType = {
 
 function ProductModal(props: ProductModalProps) {
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const { user } = useSelector((state: GlobalState) => state.user);
 
@@ -58,6 +59,27 @@ function ProductModal(props: ProductModalProps) {
   useEffect(() => setProduct(props.data), [props.data]);
 
   const reset = () => setProduct(dummyData);
+
+  const callAddToWishlist = async (product_id: string) => {
+    try {
+      await dispatch(addToWishlist(product_id));
+      toast({
+        title: "Added to wishlist",
+        status: "info",
+        variant: "left-accent",
+        isClosable: true,
+        position: "bottom-left",
+      });
+    } catch (err) {
+      console.log("ERR", err);
+      toast({
+        title: err.message || "Something went wrong",
+        status: "warning",
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
 
   return (
     <Modal
@@ -124,6 +146,7 @@ function ProductModal(props: ProductModalProps) {
                 mr={3}
                 onClick={() => {
                   if (user.id) {
+                    callAddToWishlist(product.id);
                   } else {
                     toast({
                       title:

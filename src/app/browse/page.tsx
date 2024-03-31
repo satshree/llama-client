@@ -32,6 +32,8 @@ import { fetchCart } from "@/api/cart";
 import { API_ROOT } from "@/utils";
 
 import search from "@/assets/img/search.svg";
+import Wishlist from "@/components/store/Wishlist";
+import { addToWishlist } from "@/api/wishlist";
 
 const dummyData: ProductType = {
   id: "",
@@ -138,6 +140,27 @@ function Browse() {
       });
   };
 
+  const callAddToWishlist = async (product_id: string) => {
+    try {
+      await dispatch(addToWishlist(product_id));
+      toast({
+        title: "Added to wishlist",
+        status: "info",
+        variant: "left-accent",
+        isClosable: true,
+        position: "bottom-left",
+      });
+    } catch (err) {
+      console.log("ERR", err);
+      toast({
+        title: err.message || "Something went wrong",
+        status: "warning",
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
+
   return (
     <>
       <div className={style.page}>
@@ -198,6 +221,7 @@ function Browse() {
                           colorScheme="pink"
                           onClick={() => {
                             if (user.id) {
+                              callAddToWishlist(product.id);
                             } else {
                               toast({
                                 title:
@@ -250,6 +274,7 @@ function Browse() {
         addToCart={addToCart}
         onClose={() => setProductModal(dummyData)}
       />
+      <Wishlist addToCart={(id: string) => addToCart(id)} />
       <Cart addToCart={addToCart} />
     </>
   );

@@ -49,7 +49,10 @@ export interface GlobalState {
     open: true | false;
     cart: CartType;
   };
-  wishlist: WishlistType;
+  wishlist: {
+    open: true | false;
+    wishlist: WishlistType[];
+  };
   bills: {
     bills: BillType[];
   };
