@@ -10,6 +10,9 @@ import {
   Center,
   Button,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import { GlobalState } from "@/types";
+import { parseAddress } from "@/utils";
 
 export interface ShippingDetails {
   first_name: string;
@@ -29,31 +32,45 @@ interface ShippingFormProps {
 }
 
 function ShippingForm(props: ShippingFormProps) {
-  const [firstName, setFirstName] = useState(props.details.first_name);
+  const { user } = useSelector((state: GlobalState) => state.user);
+
+  const [firstName, setFirstName] = useState(
+    user.first_name || props.details.first_name
+  );
   const [firstNameError, setFirstNameError] = useState("");
 
-  const [lastName, setLastName] = useState(props.details.last_name);
+  const [lastName, setLastName] = useState(
+    user.last_name || props.details.last_name
+  );
   const [lastNameError, setLastNameError] = useState("");
 
-  const [email, setEmail] = useState(props.details.email);
+  const [email, setEmail] = useState(user.email || props.details.email);
   const [emailError, setEmailError] = useState("");
 
-  const [phone, setPhone] = useState(props.details.phone);
+  const [phone, setPhone] = useState(user.phone || props.details.phone);
   const [phoneError, setPhoneError] = useState("");
 
-  const [address, setAddress] = useState(props.details.address);
+  const userAddress = parseAddress(user.address || "");
+
+  const [address, setAddress] = useState(
+    userAddress.street || props.details.address
+  );
   const [addressError, setAddressError] = useState("");
 
-  const [city, setCity] = useState(props.details.city);
+  const [city, setCity] = useState(userAddress.city || props.details.city);
   const [cityError, setCityError] = useState("");
 
-  const [addressState, setAddressState] = useState(props.details.state);
+  const [addressState, setAddressState] = useState(
+    userAddress.state || props.details.state
+  );
   const [addressStateError, setAddressStateError] = useState("");
 
-  const [zip, setZip] = useState(props.details.zip);
+  const [zip, setZip] = useState(userAddress.zip || props.details.zip);
   const [zipError, setZipError] = useState("");
 
-  const [country, setCountry] = useState(props.details.country);
+  const [country, setCountry] = useState(
+    userAddress.country || props.details.country
+  );
   const [countryError, setCountryError] = useState("");
 
   const onFirstNameChange = (e: ChangeEvent<HTMLInputElement>) => {
