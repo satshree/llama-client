@@ -61,8 +61,8 @@ function BillModal(props: BillModalProps) {
         <ModalContent>
           {/* <ModalHeader></ModalHeader> */}
           <ModalCloseButton />
-          <ModalBody w="800px">
-            <Box p="5rem 2rem">
+          <ModalBody>
+            <Box p="5rem 1rem">
               <Receipt bill={bill} />
             </Box>
           </ModalBody>

@@ -18,10 +18,17 @@
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   pointer-events: none;
+
+  width: 300px;
+  height: 300px;
+
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .card {
   max-width: 300px;
+  max-height: 500px;
 }
 
 .product-title:hover {
