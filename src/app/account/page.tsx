@@ -71,7 +71,7 @@ function Account() {
       });
     } else {
       setBillList(response);
-      if (user.id === "" ?? response.length === 0)
+      if (response.length === 0 ?? user.id === "")
         toast({
           title: "No bills found",
           status: "info",
