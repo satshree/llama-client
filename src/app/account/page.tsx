@@ -71,6 +71,14 @@ function Account() {
       });
     } else {
       setBillList(response);
+      if (user.id === "" ?? response.length === 0)
+        toast({
+          title: "No bills found",
+          status: "info",
+          variant: "left-accent",
+          isClosable: true,
+          position: "bottom-left",
+        });
     }
   };
 
