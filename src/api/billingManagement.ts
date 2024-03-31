@@ -21,22 +21,29 @@ const billSlice = createSlice({
   },
 });
 
-export const fetchBills = () => async (dispatch: Dispatch) => {
-  const auth = loadAuthStateFromLocalStorage();
-  const response = await fetch(API_ROOT + "/api/management/billing/", {
-    headers: {
-      Authorization: `Bearer ${auth.token.access}`,
-    },
-  });
+export const fetchBills =
+  (date: string = "") =>
+  async (dispatch: Dispatch) => {
+    let api = "/api/management/billing/";
+    if (date !== "") {
+      api = `/api/management/billing/?date=${date}`;
+    }
 
-  if (response.status !== 200) {
-    console.dir(response);
-    throw new Error("Something went wrong");
-  } else {
-    const billingData = await response.json();
-    dispatch(setBills(billingData));
-  }
-};
+    const auth = loadAuthStateFromLocalStorage();
+    const response = await fetch(API_ROOT + api, {
+      headers: {
+        Authorization: `Bearer ${auth.token.access}`,
+      },
+    });
+
+    if (response.status !== 200) {
+      console.dir(response);
+      throw new Error("Something went wrong");
+    } else {
+      const billingData = await response.json();
+      dispatch(setBills(billingData));
+    }
+  };
 
 export const { setBills } = billSlice.actions;
 export default billSlice.reducer;

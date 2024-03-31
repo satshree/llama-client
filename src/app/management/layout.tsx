@@ -10,6 +10,7 @@ import SideNav from "@/components/management/SideNav/page";
 import isAdmin from "../../middlewares/isAdmin";
 import { fetchBills, fetchUsers } from "@/api";
 
+import "react-day-picker/dist/style.css";
 import style from "./management.module.css";
 
 function RootLayout({

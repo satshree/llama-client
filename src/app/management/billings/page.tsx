@@ -6,6 +6,8 @@ import {
   Box,
   Center,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   Input,
   Stat,
@@ -16,11 +18,14 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
+import { DayPicker } from "react-day-picker";
+import { format } from "date-fns";
 
 import { fetchBills } from "@/api/billingManagement";
 import { BillType, GlobalState, PaidType } from "@/types";
 import Bill from "@/components/management/Bill/Bill";
 import { roundDecimal } from "@/utils";
+import moment from "moment";
 
 const dummyBillData: BillType = {
   id: "",
@@ -55,27 +60,41 @@ function Billings() {
   const { bills } = useSelector((state: GlobalState) => state.bills);
 
   const [filter, setFilter] = useState("");
+  const [filterDate, setFilterDate] = useState<Date>();
   const [billDrawer, setBillDrawer] = useState<BillType>(dummyBillData);
   const [allBills, setAllBills] = useState<BillType[]>([]);
 
   useEffect(() => {
-    const fetchAllBills = async () => {
-      try {
-        await dispatch(fetchBills());
-      } catch (err) {
-        console.log(err);
-        toast({
-          title: "Something went wrong",
-          description: "Unable to fetch bills",
-          status: "warning",
-          isClosable: true,
-          position: "bottom-left",
-        });
-      }
-    };
     fetchAllBills();
   }, []);
+
   useEffect(() => setAllBills(bills), [bills]);
+
+  useEffect(() => {
+    if (filterDate) {
+      filterBillByDate();
+    } else {
+      fetchAllBills();
+    }
+  }, [filterDate]);
+
+  const fetchAllBills = async () => {
+    try {
+      await dispatch(fetchBills());
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Something went wrong",
+        description: "Unable to fetch bills",
+        status: "warning",
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
+
+  const filterBillByDate = async () =>
+    await dispatch(fetchBills(format(filterDate, "yyyy-MM-dd")));
 
   const getBills = () =>
     allBills.filter((bill) =>
@@ -92,67 +111,95 @@ function Billings() {
 
   return (
     <div>
-      <Center>
-        <Input
-          placeholder="Filter by Phone Number"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          w="50%"
-        />
-      </Center>
-      <br />
-      {getBills().length > 0 ? (
-        <>
-          <VStack spacing="0.5rem">
-            {getBills().map((bill) => (
-              <Box
-                key={bill.id}
-                borderWidth={0.8}
-                borderRadius={8}
-                w="80%"
-                p="1rem"
-                cursor="pointer"
-                onClick={() => setBillDrawer(bill)}
-              >
-                <Flex alignItems="center" justifyContent="space-between">
-                  <div>
-                    <Heading size="sm">
-                      Billed for {bill.info.customer.email} (
-                      {bill.info.customer.phone})
-                    </Heading>
-                    <Text fontSize="sm">
-                      {bill.date ? (
-                        <>Billed at {bill.date}</>
-                      ) : (
-                        <>Billed date unavailable</>
-                      )}
-                    </Text>
-                  </div>
-                  <div>
-                    <Stat>
-                      <StatLabel>Total</StatLabel>
-                      <StatNumber>${roundDecimal(bill.grand_total)}</StatNumber>
-                      <StatHelpText>
-                        {bill.paid.length > 0 ? (
-                          <>Paid ${getTotalPaid(bill.paid)}</>
-                        ) : (
-                          <>Not Paid</>
-                        )}
-                      </StatHelpText>
-                    </Stat>
-                  </div>
-                </Flex>
-              </Box>
-            ))}
-          </VStack>
-        </>
-      ) : (
-        <>
-          <Center p="1rem">
-            <Heading size="sm">No Bills ...</Heading>
-          </Center>
-        </>
-      )}
+      <Grid templateColumns="repeat(12, 1fr)" gap="1rem">
+        <GridItem colSpan={3}>
+          <Box w="100%" p="1rem" borderWidth={0.8} borderRadius={8}>
+            <Input
+              placeholder="Filter by Phone Number"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              w="100%"
+            />
+            <br />
+            <Center>
+              <DayPicker
+                mode="single"
+                selected={filterDate}
+                onSelect={setFilterDate}
+                footer={
+                  <>
+                    {filterDate ? (
+                      <Center>
+                        <Text>
+                          Showing bills billed at {format(filterDate, "PP")}
+                        </Text>
+                      </Center>
+                    ) : null}
+                  </>
+                }
+              />
+            </Center>
+          </Box>
+        </GridItem>
+        <GridItem colSpan={9}>
+          <Box w="100%">
+            {getBills().length > 0 ? (
+              <>
+                <VStack spacing="0.5rem">
+                  {getBills().map((bill) => (
+                    <Box
+                      key={bill.id}
+                      borderWidth={0.8}
+                      borderRadius={8}
+                      w="100%"
+                      p="1rem"
+                      cursor="pointer"
+                      onClick={() => setBillDrawer(bill)}
+                    >
+                      <Flex alignItems="center" justifyContent="space-between">
+                        <div>
+                          <Heading size="sm">
+                            Billed for {bill.info.customer.email} (
+                            {bill.info.customer.phone})
+                          </Heading>
+                          <Text fontSize="sm">
+                            {bill.date ? (
+                              <>Billed at {bill.date}</>
+                            ) : (
+                              <>Billed date unavailable</>
+                            )}
+                          </Text>
+                        </div>
+                        <div>
+                          <Stat>
+                            <StatLabel>Total</StatLabel>
+                            <StatNumber>
+                              ${roundDecimal(bill.grand_total)}
+                            </StatNumber>
+                            <StatHelpText>
+                              {bill.paid.length > 0 ? (
+                                <>Paid ${getTotalPaid(bill.paid)}</>
+                              ) : (
+                                <>Not Paid</>
+                              )}
+                            </StatHelpText>
+                          </Stat>
+                        </div>
+                      </Flex>
+                    </Box>
+                  ))}
+                </VStack>
+              </>
+            ) : (
+              <>
+                <Center p="1rem">
+                  <Heading size="sm">No Bills ...</Heading>
+                </Center>
+              </>
+            )}
+          </Box>
+        </GridItem>
+      </Grid>
 
       <Bill
         bill={billDrawer}
