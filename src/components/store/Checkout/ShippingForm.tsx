@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 
 export interface ShippingDetails {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone: string;
   address: string;
@@ -29,10 +29,10 @@ interface ShippingFormProps {
 }
 
 function ShippingForm(props: ShippingFormProps) {
-  const [firstName, setFirstName] = useState(props.details.firstName);
+  const [firstName, setFirstName] = useState(props.details.first_name);
   const [firstNameError, setFirstNameError] = useState("");
 
-  const [lastName, setLastName] = useState(props.details.lastName);
+  const [lastName, setLastName] = useState(props.details.last_name);
   const [lastNameError, setLastNameError] = useState("");
 
   const [email, setEmail] = useState(props.details.email);
@@ -153,8 +153,8 @@ function ShippingForm(props: ShippingFormProps) {
 
     if (proceed)
       props.onSubmit({
-        firstName,
-        lastName,
+        first_name: firstName,
+        last_name: lastName,
         email,
         phone,
         address,
