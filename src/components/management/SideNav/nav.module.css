@@ -1,0 +1,38 @@
+.sidenav {
+  height: 100%;
+
+  padding: 100px 1rem 0;
+  background-color: #f2f2f2;
+}
+
+.nav {
+  display: block;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  transition: all 0.1s linear;
+}
+
+.nav:hover {
+  cursor: pointer;
+  background-color: #4d9fed;
+  color: white;
+
+  transition: all 0.1s linear;
+}
+
+.nav:last-child {
+  margin-bottom: 0;
+}
+
+.active {
+  background-color: #3182ce;
+  color: white;
+  font-weight: 600;
+
+  transition: all 0.1s linear;
+}

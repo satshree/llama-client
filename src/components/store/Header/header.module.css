@@ -1,0 +1,30 @@
+.header {
+  top: 0;
+  left: 0;
+  position: fixed;
+
+  background-color: #ffffffa8;
+
+  height: 75px;
+  width: 100%;
+  padding: 0 1.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badge {
+  top: 17px;
+  right: 20px;
+  position: absolute;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  color: white;
+  background-color: #000000c8;
+
+  border-radius: 50%;
+  padding: 1px 5px;
+}

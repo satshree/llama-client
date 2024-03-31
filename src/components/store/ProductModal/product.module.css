@@ -1,0 +1,15 @@
+.image-box {
+  padding: 1rem;
+
+  width: 400px;
+  height: 100%;
+
+  border-radius: 8px;
+
+  background-color: #e1e0e0;
+}
+
+.image {
+  margin-left: auto;
+  margin-right: auto;
+}
