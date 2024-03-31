@@ -14,14 +14,16 @@ import {
   Text,
   Stat,
   StatNumber,
+  useToast,
 } from "@chakra-ui/react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
-import { ProductType } from "@/types";
+import { GlobalState, ProductType } from "@/types";
 
 import style from "./product.module.css";
+import { useSelector } from "react-redux";
 
 interface ProductModalProps {
   open: true | false;
@@ -45,6 +47,10 @@ const dummyData: ProductType = {
 };
 
 function ProductModal(props: ProductModalProps) {
+  const toast = useToast();
+
+  const { user } = useSelector((state: GlobalState) => state.user);
+
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState<ProductType>(dummyData);
 
@@ -112,7 +118,24 @@ function ProductModal(props: ProductModalProps) {
               <Button mr={3} onClick={props.onClose}>
                 Close
               </Button>
-              <Button variant="outline" colorScheme="pink" mr={3}>
+              <Button
+                variant="outline"
+                colorScheme="pink"
+                mr={3}
+                onClick={() => {
+                  if (user.id) {
+                  } else {
+                    toast({
+                      title:
+                        "Login or create an account to add items to wishlist",
+                      status: "info",
+                      variant: "left-accent",
+                      isClosable: true,
+                      position: "bottom-left",
+                    });
+                  }
+                }}
+              >
                 Add to Wishlist
               </Button>
               <Button

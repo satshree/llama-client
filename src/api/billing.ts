@@ -1,6 +1,6 @@
 import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { API_ROOT, loadAuthStateFromLocalStorage } from "@/utils";
+import { API_ROOT } from "@/utils";
 import { BillType } from "@/types";
 
 interface BillState {

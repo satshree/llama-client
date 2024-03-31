@@ -53,6 +53,7 @@ function Browse() {
   const { products } = useSelector((state: GlobalState) => state.products);
   const { categories } = useSelector((state: GlobalState) => state.categories);
   const { cart } = useSelector((state: GlobalState) => state.cart);
+  const { user } = useSelector((state: GlobalState) => state.user);
 
   const [filterSearch, setFilterSearch] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
@@ -159,7 +160,7 @@ function Browse() {
           </Flex>
           <br />
           {getProducts().length > 0 ? (
-            <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing="2rem">
+            <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} spacing="2rem">
               {getProducts().map((product) => (
                 <Card key={product.id} className={style.card} borderRadius={8}>
                   <Image
@@ -195,6 +196,19 @@ function Browse() {
                           icon={<FiHeart />}
                           aria-label={""}
                           colorScheme="pink"
+                          onClick={() => {
+                            if (user.id) {
+                            } else {
+                              toast({
+                                title:
+                                  "Login or create an account to add items to wishlist",
+                                status: "info",
+                                variant: "left-accent",
+                                isClosable: true,
+                                position: "bottom-left",
+                              });
+                            }
+                          }}
                         />
                         <IconButton
                           icon={<TbShoppingCartPlus />}

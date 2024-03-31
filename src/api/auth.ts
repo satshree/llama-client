@@ -77,6 +77,8 @@ const authTokenSlice = createSlice({
       state.token = initialState.token;
       state.user = initialState.user;
 
+      console.log("HUH?", state);
+
       removeAuthStateFromLocalStorage();
       removeCartFromLocalStorage();
       clearAllIntervals();
