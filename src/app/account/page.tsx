@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Box,
   Button,
-  Card,
-  CardBody,
   Center,
   Collapse,
   Divider,
@@ -19,16 +19,16 @@ import {
 } from "@chakra-ui/react";
 
 import { BillType, GlobalState } from "@/types";
+import { API_ROOT } from "@/utils";
+import { fetchBillsByPhone } from "@/api/billing";
 
 import Header from "@/components/store/Header";
-
-import style from "./account.module.css";
-import { API_ROOT } from "@/utils";
 import BillList from "@/components/store/Account/BillList";
-import BillModal, { dummyBillData } from "@/components/store/Account/BillModal";
 import UserForm from "@/components/store/Account/UserForm";
-import { fetchBillsByPhone } from "@/api/billing";
-import Link from "next/link";
+import BillModal, { dummyBillData } from "@/components/store/Account/BillModal";
+
+import empty from "@/assets/img/empty.svg";
+import style from "./account.module.css";
 
 function Account() {
   const toast = useToast();
@@ -98,10 +98,32 @@ function Account() {
             <br />
             <Center>
               <Box w="75%" p="1rem" borderWidth={0.8} borderRadius={8}>
-                <BillList
-                  billList={bills}
-                  openModal={(bill) => setBillModal(bill)}
-                />
+                <Text fontSize="large" fontWeight={600}>
+                  Order history
+                </Text>
+                <br />
+                {bills.length > 0 ? (
+                  <BillList
+                    billList={bills}
+                    openModal={(bill) => setBillModal(bill)}
+                  />
+                ) : (
+                  <>
+                    <Center p="5rem">
+                      <Image
+                        src={empty.src}
+                        alt="No bills"
+                        width={350}
+                        height={350}
+                        style={{ pointerEvents: "none" }}
+                      />
+                    </Center>
+                    <Center>
+                      <Text>Your order history will appear here</Text>
+                    </Center>
+                    <br />
+                  </>
+                )}
               </Box>
             </Center>
           </>
