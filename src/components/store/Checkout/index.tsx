@@ -32,7 +32,7 @@ import ShippingForm, { ShippingDetails } from "./ShippingForm";
 import PaymentForm, { PaymentDetails } from "./PaymentForm";
 
 import { GlobalState } from "@/types";
-import { API_ROOT } from "@/utils";
+import { API_ROOT, roundDecimal } from "@/utils";
 
 import confirmed from "@/assets/img/confirmed.svg";
 import { fetchCart, toggleCart } from "@/api/cart";
@@ -199,7 +199,7 @@ function Checkout(props: CheckoutProps) {
         <ModalHeader>Checkout</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Box h="550px">
+          <Box minH="550px">
             <Stepper index={activeStep}>
               {steps.map((step, index) => (
                 <Step key={index}>
@@ -237,7 +237,9 @@ function Checkout(props: CheckoutProps) {
                   onSubmit={(details: { card: string }) => {
                     setPaymentDetails({
                       card: details.card,
-                      amount: cart.total,
+                      amount: roundDecimal(
+                        cart.total + (cart.total / 100) * 6.25
+                      ),
                     });
                     submitPayment();
                   }}
